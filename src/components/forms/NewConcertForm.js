@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import CalendarInput from '../inputs/CalendarInput';
 import ArtistSearch from '../inputs/ArtistSearch';
 import VenueSearch from '../inputs/VenueSearch';
+import TimeInput from '../inputs/TimeInput';
 
 const artistSchema = z.object({
   id: z.string(),
@@ -27,6 +28,7 @@ const formSchema = z.object({
   artist: artistSchema,
   venue: venueSchema,
   date: z.date(),
+  time: z.string(),
   tourName: z.string(),
 });
 
@@ -45,6 +47,7 @@ export default function NewConcertForm() {
         <ArtistSearch control={form.control} placeholder="Search for artists..." label="Artist Name" url="https://concert-capsule-api.onrender.com/artists/search" name="artist" />
         <VenueSearch control={form.control} placeholder="Search for venues..." label="Venue Name" url="https://concert-capsule-api.onrender.com/venues/search" name="venue" />
         <CalendarInput control={form.control} name="date" label="Event Date" placeholder="Choose a date" width="[500px]" />
+        <TimeInput control={form.control} name="time" label="Event Time" width="[500px]" />
         <FormField
           control={form.control}
           name="tourName"
@@ -59,7 +62,6 @@ export default function NewConcertForm() {
             </FormItem>
           )}
         />
-
         <Button onClick={form.handleSubmit(onSubmit)}>Submit</Button>
       </Form>
     </div>
