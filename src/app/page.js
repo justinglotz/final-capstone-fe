@@ -1,6 +1,6 @@
 'use client';
 
- // any component that uses useAuth needs this because if a component directly imports useAuth, it needs to be a client component since useAuth uses React hooks.
+// any component that uses useAuth needs this because if a component directly imports useAuth, it needs to be a client component since useAuth uses React hooks.
 
 import { Button } from 'react-bootstrap';
 import { signOut } from '@/utils/auth'; // anything in the src dir, you can use the @ instead of relative paths
