@@ -11,6 +11,7 @@ import CalendarInput from '../inputs/CalendarInput';
 import ArtistSearch from '../inputs/ArtistSearch';
 import VenueSearch from '../inputs/VenueSearch';
 import TimeInput from '../inputs/TimeInput';
+import { createConcert } from '../../api/concertData';
 
 const artistSchema = z.object({
   id: z.string(),
@@ -27,7 +28,7 @@ const venueSchema = z.object({
 const formSchema = z.object({
   artist: artistSchema,
   venue: venueSchema,
-  date: z.date(),
+  date: z.string(),
   time: z.string(),
   tourName: z.string(),
 });
@@ -39,6 +40,7 @@ export default function NewConcertForm() {
 
   function onSubmit(values) {
     console.log(values);
+    createConcert(values);
   }
 
   return (
