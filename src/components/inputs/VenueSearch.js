@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -6,34 +6,10 @@ import { Button } from '@/components/ui/button';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { cn } from '../../lib/utils';
+import { useSearch } from '../../utils/hooks/useSearch';
 
 export default function VenueSearch({ control, placeholder = 'Search...', label, url, name, description }) {
-  const [query, setQuery] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
-
-  async function search(searchQuery) {
-    if (!searchQuery) {
-      setSearchResults([]);
-      return;
-    }
-
-    try {
-      const res = await fetch(`${url}?q=${searchQuery}`);
-      const data = await res.json();
-      console.log(data);
-      setSearchResults(data);
-    } catch (error) {
-      console.error('Error fetching:', error);
-    }
-  }
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      search(query);
-    }, 300); // 300ms debounce
-
-    return () => clearTimeout(timeoutId);
-  }, [query]);
+  const { query, setQuery, results } = useSearch(url);
 
   return (
     <FormField
@@ -57,7 +33,7 @@ export default function VenueSearch({ control, placeholder = 'Search...', label,
                 <CommandList>
                   <CommandEmpty>No venues found.</CommandEmpty>
                   <CommandGroup>
-                    {searchResults.map((result) => (
+                    {results.map((result) => (
                       <CommandItem
                         className="flex justify-between"
                         value={result.name}
