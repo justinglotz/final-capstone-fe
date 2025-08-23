@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
@@ -6,6 +7,10 @@
 body {
   /* background: black; */
   /* color: white; */
+}
+
+@theme {
+  --font-inconsolata: var(--font-inconsolata);
 }
 
 @theme inline {
@@ -44,13 +49,17 @@ body {
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-ticket-bg-left: var(--ticket-bg-left);
+  --color-ticket-center-line: var(--ticket-center-line);
+  --color-ticket-background: var(--ticket-background);
 }
 
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
+  --card: #b39999;
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
@@ -79,6 +88,10 @@ body {
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  --ticket-bg-left: #b39999;
+  --ticket-center-line: #d01818;
+  --ticket-background: #c3cdce;
 }
 
 .dark {
