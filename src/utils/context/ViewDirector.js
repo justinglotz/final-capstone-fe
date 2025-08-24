@@ -3,10 +3,10 @@ import { useAuth } from '@/utils/context/authContext';
 import Loading from '@/components/Loading';
 import SignIn from '@/components/SignIn';
 import NavBar from '@/components/NavBar';
+import ProfileSetup from '../../components/ProfileSetup';
 
 function ViewDirectorBasedOnUserAuthStatus({ children }) {
-  const { user, userLoading } = useAuth();
-
+  const { user, userLoading, updateUser } = useAuth();
   // if user state is null, then show loader
   if (userLoading) {
     return <Loading />;
@@ -17,7 +17,7 @@ function ViewDirectorBasedOnUserAuthStatus({ children }) {
     return (
       <>
         <NavBar /> {/* NavBar only visible if user is logged in and is in every view */}
-        {children}
+        <div className="container">{'valid' in user ? <ProfileSetup user={user} updateUser={updateUser} /> : children}</div>
       </>
     );
   }

@@ -1,5 +1,6 @@
 'use client';
 
+import PropTypes from 'prop-types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -8,9 +9,9 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { useRouter } from 'next/navigation';
 import TextInput from './inputs/TextInput';
-import { useAuth } from '../utils/context/authContext';
-import { createUser } from '../api/userData';
+// import { createUser } from '../api/userData';
 import UsernameSearch from './inputs/UsernameSearch';
+import { registerUser } from '../utils/auth';
 
 const formSchema = z.object({
   username: z.string().min(3, 'Username must be at least 3 characters').max(20, 'Username must be less than 20 characters'),
@@ -18,8 +19,7 @@ const formSchema = z.object({
   last_name: z.string().optional(),
 });
 
-export default function ProfileSetup() {
-  const { user } = useAuth();
+export default function ProfileSetup({ user, updateUser }) {
   const router = useRouter();
 
   const form = useForm({
@@ -31,7 +31,7 @@ export default function ProfileSetup() {
       ...values,
       uid_firebase: user.uid,
     };
-    createUser(updatedValues);
+    registerUser(updatedValues).then(() => updateUser(user.uid));
     router.push('/');
   }
 
@@ -47,3 +47,10 @@ export default function ProfileSetup() {
     </div>
   );
 }
+
+ProfileSetup.propTypes = {
+  user: PropTypes.shape({
+    uid: PropTypes.string.isRequired,
+  }).isRequired,
+  updateUser: PropTypes.func.isRequired,
+};
