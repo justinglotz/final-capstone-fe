@@ -21,10 +21,10 @@ export default function Ticket({ concertName }) {
   };
   return (
     <div className="w-[490px] h-[220px] border border-black flex flex-row rounded-lg overflow-hidden">
-      <div className="flex-[1] bg-ticket-bg-left flex flex-col gap-2">
-        <Button className="w-[60px] flex-1"> 1 </Button>
-        <Button className="w-[60px] flex-1"> 2 </Button>
-        <Button className="w-[60px] flex-1"> 3 </Button>
+      <div className="flex-[1] bg-ticket-bg-left flex flex-col items-center gap-3 py-3">
+        <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center">1</Button>
+        <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center">2</Button>
+        <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center">3</Button>
       </div>
       <div className="flex-[0_0_5px] bg-ticket-center-line"></div>
       <div className="flex-[6] relative bg-ticket-background">
@@ -35,7 +35,7 @@ export default function Ticket({ concertName }) {
 
         {/* Ticket content would go here */}
         <div className="relative z-10 ">
-          <div className="mt-18 text-[22px] font-inconsolata">
+          <div className="mt-18 font-inconsolata text-black">
             <div className="font-semibold ml-16 text-[22px]">{concertName.toUpperCase()}</div>
             <div className="ml-10 text-[20px]">Jon Batiste Plays America</div>
             <div className="ml-16 text-[16px]">Opry House</div>
@@ -44,8 +44,8 @@ export default function Ticket({ concertName }) {
           </div>
         </div>
       </div>
-      <div className="flex-[1] text-sm flex items-center justify-center">
-        <div className="transform -rotate-90 whitespace-nowrap font-bold text-black">
+      <div className="flex-[1] text-sm flex items-center justify-center bg-foreground">
+        <div className="transform -rotate-90 whitespace-nowrap font-bold text-black font-inconsolata text-[16px]">
           <div>TICKET</div>
           <div>#002</div>
         </div>
