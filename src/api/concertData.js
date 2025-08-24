@@ -2,19 +2,23 @@
 const endpoint = 'http://127.0.0.1:8000/concerts';
 
 // CREATE CONCERT
-const createConcert = (payload) =>
-  new Promise((resolve, reject) => {
-    fetch(endpoint, {
+const createConcert = async (payload) => {
+  try {
+    const response = await fetch(endpoint, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
-    })
-      .then((response) => response.json())
-      .then((data) => resolve(data))
-      .catch(reject);
-  });
+    });
 
+    if (!response.ok) {
+      throw new Error('Failed to create concert');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('createConcert error:', error);
+    throw error;
+  }
+};
 // eslint-disable-next-line import/prefer-default-export
 export { createConcert };
