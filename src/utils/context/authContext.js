@@ -31,8 +31,8 @@ function AuthProvider(props) {
     firebase.auth().onAuthStateChanged((fbUser) => {
       if (fbUser) {
         setOAuthUser(fbUser);
-        checkUser(fbUser.uid).then((gamerInfo) => {
-          setUser({ fbUser, uid: fbUser.uid, ...gamerInfo });
+        checkUser(fbUser.uid).then((userInfo) => {
+          setUser({ fbUser, uid: fbUser.uid, ...userInfo });
         });
       } else {
         setOAuthUser(false);
