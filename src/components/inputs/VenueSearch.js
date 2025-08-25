@@ -42,7 +42,7 @@ export default function VenueSearch({ control, placeholder = 'Search...', label,
                           field.onChange(result);
                         }}
                       >
-                        <div className="flex justify-between flex-1">
+                        <div className="flex justify-between flex-1 text-black">
                           <span className="max-w-[60%] truncate">{result.name}</span>
 
                           <span className="flex-shrink-0">

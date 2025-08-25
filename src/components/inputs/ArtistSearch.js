@@ -42,7 +42,7 @@ export default function ArtistSearch({ control, placeholder = 'Search...', label
                           field.onChange(result);
                         }}
                       >
-                        <div className="flex justify-between flex-1">
+                        <div className="flex justify-between flex-1 text-black">
                           <span className="max-w-[60%] truncate">{result.name}</span>
                         </div>
                         <Check className={cn('ml-auto', field.value && result.id === field.value?.id ? 'opacity-100' : 'opacity-0')} />
