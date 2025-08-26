@@ -52,7 +52,7 @@ export default function NewConcertForm() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4">
+    <div className="flex flex-col items-center justify-center gap-4 m-auto">
       <Form {...form}>
         <ArtistSearch control={form.control} placeholder="Search for artists..." label="Artist Name" url="https://concert-capsule-api.onrender.com/artists/search" name="artist" />
         <VenueSearch control={form.control} placeholder="Search for venues..." label="Venue Name" url="https://concert-capsule-api.onrender.com/venues/search" name="venue" />
