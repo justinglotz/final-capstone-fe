@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import { useAuth } from '@/utils/context/authContext';
 import Loading from '@/components/Loading';
 import SignIn from '@/components/SignIn';
-import NavBar from '@/components/NavBar';
 import ProfileSetup from '../../components/ProfileSetup';
+import NavMenu from '../../components/NavMenu';
 
 function ViewDirectorBasedOnUserAuthStatus({ children }) {
   const { user, userLoading, updateUser } = useAuth();
@@ -16,7 +16,7 @@ function ViewDirectorBasedOnUserAuthStatus({ children }) {
   if (user) {
     return (
       <>
-        <NavBar /> {/* NavBar only visible if user is logged in and is in every view */}
+        <NavMenu /> {/* NavBar only visible if user is logged in and is in every view */}
         <div className="container">{'valid' in user ? <ProfileSetup user={user} updateUser={updateUser} /> : children}</div>
       </>
     );
