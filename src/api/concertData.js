@@ -20,5 +20,23 @@ const createConcert = async (payload) => {
     throw error;
   }
 };
+
+const getConcerts = async (username) => {
+  try {
+    const response = await fetch(`${endpoint}?username=${username}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to get concerts for ${username}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('getConcerts error:', error);
+    throw error;
+  }
+};
+
 // eslint-disable-next-line import/prefer-default-export
-export { createConcert };
+export { createConcert, getConcerts };

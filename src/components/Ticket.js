@@ -4,11 +4,12 @@
 
 import React from 'react';
 import { Button } from '../components/ui/button';
+import { parseISO, format } from 'date-fns';
 
-export default function Ticket({ concertName }) {
+export default function Ticket({ artistName, tourName, venue, city, state, date, time }) {
   const generateWatermarkRows = () => {
     const rows = [];
-    const rowCount = 16; // Enough rows to cover the height
+    const rowCount = 16;
 
     for (let i = 0; i < rowCount; i++) {
       rows.push(
@@ -19,6 +20,9 @@ export default function Ticket({ concertName }) {
     }
     return rows;
   };
+  const combinedDateTime = `${date}T${time}`;
+  const dateObj = parseISO(combinedDateTime);
+  const formatted = format(dateObj, 'EEEE, MMMM d yyyy, h:mm a');
   return (
     <div className="w-[490px] h-[220px] border border-black flex flex-row rounded-lg overflow-hidden">
       <div className="flex-[1] bg-ticket-bg-left flex flex-col items-center gap-3 py-3">
@@ -36,11 +40,13 @@ export default function Ticket({ concertName }) {
         {/* Ticket content would go here */}
         <div className="relative z-10 ">
           <div className="mt-18 font-inconsolata text-black">
-            <div className="font-semibold ml-16 text-[22px]">{concertName.toUpperCase()}</div>
-            <div className="ml-10 text-[20px]">Jon Batiste Plays America</div>
-            <div className="ml-16 text-[16px]">Opry House</div>
-            <div className="ml-16 text-[16px]">Nashville, TN</div>
-            <div className="ml-10 text-[20px]">OCTOBER 1, 2025, 7:30 PM</div>
+            <div className="font-semibold ml-16 text-[22px]">{artistName.toUpperCase()}</div>
+            <div className="ml-10 text-[20px]">{tourName}</div>
+            <div className="ml-16 text-[16px]">{venue}</div>
+            <div className="ml-16 text-[16px]">
+              {city}, {state}
+            </div>
+            <div className="ml-10 text-[20px]">{formatted}</div>
           </div>
         </div>
       </div>

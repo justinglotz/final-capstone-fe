@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { format } from 'date-fns';
+import { useRouter } from 'next/navigation';
 import CalendarInput from '../inputs/CalendarInput';
 import ArtistSearch from '../inputs/ArtistSearch';
 import VenueSearch from '../inputs/VenueSearch';
@@ -36,6 +37,7 @@ const formSchema = z.object({
 });
 
 export default function NewConcertForm() {
+  const router = useRouter();
   const { user } = useAuth();
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -49,6 +51,7 @@ export default function NewConcertForm() {
     };
     console.log(payload);
     createConcert(payload);
+    router.push('/');
   }
 
   return (
