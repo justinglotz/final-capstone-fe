@@ -26,7 +26,7 @@ export default function CalendarInput({ control, name, label = 'Date', placehold
               </FormControl>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="center">
-              <Calendar mode="single" selected={field.value} defaultMonth={field.value} onSelect={(date) => field.onChange(date ? format(date, 'yyyy-MM-dd') : null)} captionLayout="dropdown" fromYear={new Date().getFullYear() - 80} toYear={new Date().getFullYear() + 5} />
+              <Calendar mode="single" selected={field.value} defaultMonth={field.value} onSelect={(date) => field.onChange(date)} captionLayout="dropdown" fromYear={new Date().getFullYear() - 80} toYear={new Date().getFullYear() + 5} />
             </PopoverContent>
           </Popover>
           <FormMessage />

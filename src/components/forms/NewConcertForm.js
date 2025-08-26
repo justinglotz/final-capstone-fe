@@ -7,11 +7,13 @@ import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { format } from 'date-fns';
 import CalendarInput from '../inputs/CalendarInput';
 import ArtistSearch from '../inputs/ArtistSearch';
 import VenueSearch from '../inputs/VenueSearch';
 import TimeInput from '../inputs/TimeInput';
 import { createConcert } from '../../api/concertData';
+import { useAuth } from '../../utils/context/authContext';
 
 const artistSchema = z.object({
   id: z.string(),
@@ -28,23 +30,29 @@ const venueSchema = z.object({
 const formSchema = z.object({
   artist: artistSchema,
   venue: venueSchema,
-  date: z.string(),
+  date: z.date(),
   time: z.string(),
   tourName: z.string(),
 });
 
 export default function NewConcertForm() {
+  const { user } = useAuth();
   const form = useForm({
     resolver: zodResolver(formSchema),
   });
 
   function onSubmit(values) {
-    console.log(values);
-    createConcert(values);
+    const payload = {
+      ...values,
+      date: format(values.date, 'yyyy-MM-dd'),
+      uid_firebase: user.uid,
+    };
+    console.log(payload);
+    createConcert(payload);
   }
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4">
+    <div className="flex flex-col items-center justify-center gap-4 m-auto">
       <Form {...form}>
         <ArtistSearch control={form.control} placeholder="Search for artists..." label="Artist Name" url="https://concert-capsule-api.onrender.com/artists/search" name="artist" />
         <VenueSearch control={form.control} placeholder="Search for venues..." label="Venue Name" url="https://concert-capsule-api.onrender.com/venues/search" name="venue" />
