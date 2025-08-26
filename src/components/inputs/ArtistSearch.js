@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -10,6 +10,7 @@ import { useSearch } from '../../utils/hooks/useSearch';
 
 export default function ArtistSearch({ control, placeholder = 'Search...', label, url, name, description }) {
   const { query, setQuery, results } = useSearch(url);
+  const [open, setOpen] = useState(false);
 
   return (
     <FormField
@@ -18,7 +19,7 @@ export default function ArtistSearch({ control, placeholder = 'Search...', label
       render={({ field }) => (
         <FormItem className="flex flex-col">
           <FormLabel>{label}</FormLabel>
-          <Popover>
+          <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger>
               <FormControl>
                 <Button variant="outline" role="combobox" className={cn('w-[500px] justify-between', !field.value && 'text-muted-foreground')}>
@@ -40,6 +41,7 @@ export default function ArtistSearch({ control, placeholder = 'Search...', label
                         key={result.id}
                         onSelect={() => {
                           field.onChange(result);
+                          setOpen(false);
                         }}
                       >
                         <div className="flex justify-between flex-1 text-black">
