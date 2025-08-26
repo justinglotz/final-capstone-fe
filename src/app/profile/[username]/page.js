@@ -1,15 +1,17 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Ticket from '../../components/Ticket';
-import { getConcerts } from '../../api/concertData';
+import PropTypes from 'prop-types';
+import Ticket from '../../../components/Ticket';
+import { getConcerts } from '../../../api/concertData';
 
-export default function ConcertsPage() {
+export default function UserConcertsPage({ params }) {
   const [concerts, setConcerts] = useState([]);
+  const { username } = params;
 
   useEffect(() => {
-    getConcerts('justinglotz').then(setConcerts);
-  }, []);
+    getConcerts(username).then(setConcerts);
+  }, [username]);
 
   return (
     <div className="flex flex-row gap-4 flex-wrap">
@@ -19,3 +21,9 @@ export default function ConcertsPage() {
     </div>
   );
 }
+
+UserConcertsPage.propTypes = {
+  params: PropTypes.shape({
+    username: PropTypes.string.isRequired,
+  }).isRequired,
+};
