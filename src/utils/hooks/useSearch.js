@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 // eslint-disable-next-line import/prefer-default-export
-export function useSearch(url, initialQuery = '', delay = 300) {
+export function useSearch(url, initialQuery = '', delay = 300, param = 'q') {
   const [query, setQuery] = useState(initialQuery);
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -16,7 +16,7 @@ export function useSearch(url, initialQuery = '', delay = 300) {
       const fetchData = async () => {
         setLoading(true);
         try {
-          const res = await fetch(`${url}?q=${query}`);
+          const res = await fetch(`${url}?${param}=${query}`);
           const data = await res.json();
           setResults(data);
         } catch (error) {
@@ -32,7 +32,7 @@ export function useSearch(url, initialQuery = '', delay = 300) {
 
     // eslint-disable-next-line consistent-return
     return () => clearTimeout(timeoutId);
-  }, [query, url, delay]);
+  }, [query, url, delay, param]);
 
   return { query, setQuery, results, loading };
 }
