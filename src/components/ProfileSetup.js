@@ -10,7 +10,7 @@ import { Form } from '@/components/ui/form';
 import { useRouter } from 'next/navigation';
 import TextInput from './inputs/TextInput';
 // import { createUser } from '../api/userData';
-import UsernameSearch from './inputs/UsernameSearch';
+import UsernameAvailableSearch from './inputs/UsernameAvailableSearch';
 import { registerUser } from '../utils/auth';
 
 const formSchema = z.object({
@@ -39,7 +39,7 @@ export default function ProfileSetup({ user, updateUser }) {
     <div className="flex flex-col items-center justify-center gap-4">
       <h1>Complete Your Profile</h1>
       <Form {...form}>
-        <UsernameSearch control={form.control} name="username" label="Username" placeholder="Username" />
+        <UsernameAvailableSearch control={form.control} name="username" label="Username" placeholder="Username" />
         <TextInput control={form.control} name="first_name" label="First Name" placeholder="John" description="optional" />
         <TextInput control={form.control} name="last_name" label="Last Name" placeholder="Doe" description="optional" />
         <Button onClick={form.handleSubmit(onSubmit)}>Create Profile</Button>
