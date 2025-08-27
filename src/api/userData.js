@@ -37,5 +37,20 @@ const checkUsername = async (searchQuery) => {
   }
 };
 
+const searchUsername = async (searchQuery) => {
+  try {
+    const response = await fetch(`${endpoint}/search?username=${searchQuery}`);
+
+    if (!response.ok) {
+      throw new Error('Failed to search for usernames');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('searchUsername error:', error);
+    throw error;
+  }
+};
+
 // eslint-disable-next-line import/prefer-default-export
-export { createUser, checkUsername };
+export { createUser, checkUsername, searchUsername };

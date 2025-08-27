@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import PropTypes from 'prop-types';
 import useUsernameAvailability from '../../utils/hooks/useUsernameAvailability';
 
-export default function UsernameSearch({ control, name, label, placeholder, description }) {
+export default function UsernameAvailableSearch({ control, name, label, placeholder, description }) {
   return (
     <FormField
       control={control}
@@ -29,7 +29,7 @@ export default function UsernameSearch({ control, name, label, placeholder, desc
   );
 }
 
-UsernameSearch.propTypes = {
+UsernameAvailableSearch.propTypes = {
   // eslint-disable-next-line
   control: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
