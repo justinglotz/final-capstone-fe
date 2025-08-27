@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Menu, TicketPlus, LogOut, CircleUserRound } from 'lucide-react'; // optional icon
 import { useRouter } from 'next/navigation';
 import { signOut } from '../utils/auth';
+import UserSearchInput from './inputs/UserSearch';
 
 export default function NavMenu() {
   const [open, setOpen] = useState(false);
@@ -23,7 +24,19 @@ export default function NavMenu() {
       {/* Sheet content */}
       <SheetContent side="right" className="w-80">
         {/* Menu items */}
+
         <nav className="flex flex-col gap-2 mt-12 font-inconsolata">
+          {/* <Input placeholder="Find other users by username"></Input> */}
+          <UserSearchInput
+            placeholder="Find other users by username"
+            onSelect={(user) => {
+              setOpen(false);
+              setTimeout(() => {
+                router.push(`/profile/${user.username}`);
+              }, 200);
+            }}
+            className="font-inconsolata"
+          />
           <Button
             variant="ghost"
             onClick={() => {
@@ -49,7 +62,7 @@ export default function NavMenu() {
           </Button>
           <Button variant="ghost" onClick={() => setOpen(false)}>
             <CircleUserRound />
-            PROFILE
+            MY CONCERTS
           </Button>
           <Button
             variant="ghost"
