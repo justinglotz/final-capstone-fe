@@ -51,7 +51,7 @@ export default function NewConcertForm() {
     };
     console.log(payload);
     createConcert(payload);
-    router.push('/');
+    router.push('/my-concerts');
   }
 
   return (
