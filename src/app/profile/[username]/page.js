@@ -22,7 +22,7 @@ export default function UserConcertsPage({ params }) {
       <Separator className="my-4" />
       <div className="flex flex-row gap-4 flex-wrap">
         {concerts.map((concert) => (
-          <Ticket key={concert.id} artistName={concert.artist.name} tourName={concert.tour_name} venue={concert.venue.name} city={concert.venue.city} state={concert.venue.state} date={concert.date} time={concert.time} />
+          <Ticket key={concert.id} concertObj={concert} />
         ))}
       </div>
     </div>
