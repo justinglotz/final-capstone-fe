@@ -38,5 +38,22 @@ const getConcerts = async (username) => {
   }
 };
 
+const deleteConcert = async (concertId, username) => {
+  try {
+    const response = await fetch(`${endpoint}/${concertId}/?username=${username}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to delete concert`);
+    }
+    return true;
+  } catch (error) {
+    console.error('deleteConcert error:', error);
+    throw error;
+  }
+};
+
 // eslint-disable-next-line import/prefer-default-export
-export { createConcert, getConcerts };
+export { createConcert, getConcerts, deleteConcert };
