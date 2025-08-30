@@ -55,5 +55,19 @@ const deleteConcert = async (concertId, username) => {
   }
 };
 
+const addConcertToProfile = async (concertId, username) => {
+  try {
+    const response = await fetch(`${endpoint}/${concertId}/add-to-profile/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username }),
+    });
+    return await response.json();
+  } catch (error) {
+    console.error('addConcertToProfile error:', error);
+    throw error;
+  }
+};
+
 // eslint-disable-next-line import/prefer-default-export
-export { createConcert, getConcerts, deleteConcert };
+export { createConcert, getConcerts, deleteConcert, addConcertToProfile };
