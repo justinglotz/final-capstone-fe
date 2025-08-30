@@ -5,9 +5,9 @@
 import React from 'react';
 import { Button } from '../components/ui/button';
 import { parseISO, format } from 'date-fns';
-import { TicketX, Pin } from 'lucide-react';
+import { TicketX, Pin, CopyPlus } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../components/ui/tooltip';
-import { deleteConcert } from '../api/concertData';
+import { addConcertToProfile, deleteConcert } from '../api/concertData';
 import { useAuth } from '../utils/context/authContext';
 
 export default function Ticket({ concertObj, isEditable = false, onUpdate }) {
@@ -27,15 +27,23 @@ export default function Ticket({ concertObj, isEditable = false, onUpdate }) {
     return rows;
   };
 
+  const combinedDateTime = `${date}T${time}`;
+  const dateObj = parseISO(combinedDateTime);
+  const formatted = format(dateObj, 'EEEE, MMMM d yyyy, h:mm a');
+
   const deleteThisConcert = () => {
     if (window.confirm(`Delete ${artist.name} at ${venue.name}?`)) {
       deleteConcert(concertObj.id, user.username).then(() => onUpdate(concertObj.id));
     }
-    console.log('delete');
   };
-  const combinedDateTime = `${date}T${time}`;
-  const dateObj = parseISO(combinedDateTime);
-  const formatted = format(dateObj, 'EEEE, MMMM d yyyy, h:mm a');
+
+  const addToProfileDateFormat = format(dateObj, 'MMMM d yyyy');
+  const addToProfile = () => {
+    if (window.confirm(`Did you also attend ${artist.name} at ${venue.name} on ${addToProfileDateFormat}?`)) {
+      addConcertToProfile(concertObj.id, user.username);
+    }
+  };
+
   return (
     <div className="w-[490px] h-[210px] border border-black flex flex-row rounded-lg overflow-hidden">
       <div className="flex-[1] bg-ticket-bg-left flex flex-col items-center gap-3 py-3">
@@ -48,7 +56,7 @@ export default function Ticket({ concertObj, isEditable = false, onUpdate }) {
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Pin to profile</p>
+                <p>Add to pinned concerts</p>
               </TooltipContent>
             </Tooltip>
             <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center opacity-0">2</Button>
@@ -65,9 +73,18 @@ export default function Ticket({ concertObj, isEditable = false, onUpdate }) {
           </>
         ) : (
           <>
-            <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center">1</Button>
-            <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center">2</Button>
-            <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center">3</Button>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center" onClick={addToProfile}>
+                  <CopyPlus />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>I was there too</p>
+              </TooltipContent>
+              <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center">2</Button>
+              <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center">3</Button>
+            </Tooltip>
           </>
         )}
       </div>
