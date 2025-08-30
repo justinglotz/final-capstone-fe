@@ -1,5 +1,7 @@
 // API CALLS FOR USER INFO
-const endpoint = 'http://127.0.0.1:8000/users';
+// const endpoint = 'http://127.0.0.1:8000/users';
+const dbURL = process.env.NEXT_PUBLIC_DATABASE_URL;
+const endpoint = `${dbURL}users`;
 
 // CREATE USER
 const createUser = async (payload) => {

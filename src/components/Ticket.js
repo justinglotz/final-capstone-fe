@@ -5,7 +5,7 @@
 import React from 'react';
 import { Button } from '../components/ui/button';
 import { parseISO, format } from 'date-fns';
-import { TicketX, Pin, CopyPlus } from 'lucide-react';
+import { TicketX, Pin, CopyPlus, ThumbsUp } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../components/ui/tooltip';
 import { addConcertToProfile, deleteConcert } from '../api/concertData';
 import { useAuth } from '../utils/context/authContext';
@@ -27,9 +27,19 @@ export default function Ticket({ concertObj, isEditable = false, onUpdate }) {
     return rows;
   };
 
-  const combinedDateTime = `${date}T${time}`;
-  const dateObj = parseISO(combinedDateTime);
-  const formatted = format(dateObj, 'EEEE, MMMM d yyyy, h:mm a');
+  let formatted = '';
+  let addToProfileDateFormat = '';
+
+  if (time) {
+    const combinedDateTime = `${date}T${time}`;
+    const dateObj = parseISO(combinedDateTime);
+    formatted = format(dateObj, 'EEEE, MMMM d yyyy, h:mm a');
+    addToProfileDateFormat = format(dateObj, 'EEEE, MMMM d yyyy');
+  } else {
+    const dateObj = parseISO(date);
+    formatted = format(dateObj, 'EEEE, MMMM d yyyy');
+    addToProfileDateFormat = formatted;
+  }
 
   const deleteThisConcert = () => {
     if (window.confirm(`Delete ${artist.name} at ${venue.name}?`)) {
@@ -37,7 +47,6 @@ export default function Ticket({ concertObj, isEditable = false, onUpdate }) {
     }
   };
 
-  const addToProfileDateFormat = format(dateObj, 'MMMM d yyyy');
   const addToProfile = () => {
     if (window.confirm(`Did you also attend ${artist.name} at ${venue.name} on ${addToProfileDateFormat}?`)) {
       addConcertToProfile(concertObj.id, user.username);
@@ -59,7 +68,7 @@ export default function Ticket({ concertObj, isEditable = false, onUpdate }) {
                 <p>Add to pinned concerts</p>
               </TooltipContent>
             </Tooltip>
-            <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center opacity-0">2</Button>
+
             <Tooltip>
               <TooltipTrigger>
                 <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center" onClick={deleteThisConcert}>
@@ -70,6 +79,7 @@ export default function Ticket({ concertObj, isEditable = false, onUpdate }) {
                 <p>Delete Concert</p>
               </TooltipContent>
             </Tooltip>
+            <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center opacity-0">2</Button>
           </>
         ) : (
           <>
@@ -82,9 +92,20 @@ export default function Ticket({ concertObj, isEditable = false, onUpdate }) {
               <TooltipContent>
                 <p>I was there too</p>
               </TooltipContent>
-              <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center">2</Button>
-              <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center">3</Button>
             </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger>
+                <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center">
+                  <ThumbsUp />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">
+                <p>Like</p>
+              </TooltipContent>
+            </Tooltip>
+
+            <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center opacity-0">3</Button>
           </>
         )}
       </div>
@@ -96,13 +117,13 @@ export default function Ticket({ concertObj, isEditable = false, onUpdate }) {
 
         <div className="relative z-10 ">
           <div className="mt-15 font-inconsolata text-black">
-            <div className="font-semibold ml-16 text-[22px]">{artist.name.toUpperCase()}</div>
-            <div className="ml-8 text-[19px]">{tour_name}</div>
-            <div className="ml-16 text-[16px]">{venue.name}</div>
-            <div className="ml-16 text-[16px]">
+            <div className="font-semibold ml-14 text-[22px]">{artist.name.toUpperCase()}</div>
+            <div className="ml-6 text-[19px]">{tour_name}</div>
+            <div className="ml-14 text-[16px]">{venue.name}</div>
+            <div className="ml-14 text-[16px]">
               {venue.city}, {venue.state}
             </div>
-            <div className="ml-8 text-[19px]">{formatted}</div>
+            <div className="ml-6 text-[18.5px]">{formatted}</div>
           </div>
         </div>
       </div>

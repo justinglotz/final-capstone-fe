@@ -32,8 +32,8 @@ const formSchema = z.object({
   artist: artistSchema,
   venue: venueSchema,
   date: z.date(),
-  time: z.string(),
-  tourName: z.string(),
+  time: z.string().optional(),
+  tourName: z.string().optional(),
 });
 
 export default function NewConcertForm() {

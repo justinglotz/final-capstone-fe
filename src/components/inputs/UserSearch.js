@@ -5,8 +5,11 @@ import { User } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { useSearch } from '../../utils/hooks/useSearch';
 
+const dbURL = process.env.NEXT_PUBLIC_DATABASE_URL;
+const endpoint = `${dbURL}users/search`;
+
 export default function UserSearchInput({ placeholder = 'Find other users by username', onSelect, className }) {
-  const { query, setQuery, results } = useSearch('http://127.0.0.1:8000/users/search', '', 300, 'username');
+  const { query, setQuery, results } = useSearch(`${endpoint}`, '', 300, 'username');
   const [open, setOpen] = useState(false);
 
   const handleSelect = (user) => {
@@ -37,9 +40,9 @@ export default function UserSearchInput({ placeholder = 'Find other users by use
               <CommandEmpty className="bg-black text-white my-auto text-center text-[14px]">No users found.</CommandEmpty>
               <CommandGroup className="bg-black">
                 {results.map((user) => (
-                  <CommandItem key={user.id} value={user.username} onSelect={() => handleSelect(user)} className="cursor-pointer">
+                  <CommandItem key={user.id} value={user.username} onSelect={() => handleSelect(user)} className="cursor-pointer data-[selected=true]:bg-gray-600">
                     <User className="w-4 h-4 mr-2" />
-                    <span className="text-white bg-black">{user.username}</span>
+                    <span className="text-white">{user.username}</span>
                   </CommandItem>
                 ))}
               </CommandGroup>
