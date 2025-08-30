@@ -1,21 +1,16 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import Ticket from '../components/Ticket';
-import { getConcerts } from '../api/concertData';
+import React from 'react';
+import { Separator } from '../components/ui/separator';
 
 export default function ConcertsPage() {
-  const [concerts, setConcerts] = useState([]);
-
-  useEffect(() => {
-    getConcerts('justinglotz').then(setConcerts);
-  }, []);
-
   return (
-    <div className="flex flex-row gap-4 flex-wrap justify-center">
-      {concerts.map((concert) => (
-        <Ticket key={concert.id} concertObj={concert} isEditable={false} />
-      ))}
+    <div className="w-screen">
+      <div className="text-center font-inconsolata mt-10 text-[22px]">
+        <h1>Feed</h1>
+      </div>
+      <Separator className="my-4" />
+      <p className="text-center">Still working on this...</p>
     </div>
   );
 }
