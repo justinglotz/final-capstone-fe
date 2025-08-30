@@ -43,14 +43,14 @@ export default function NewConcertForm() {
     resolver: zodResolver(formSchema),
   });
 
-  function onSubmit(values) {
+  async function onSubmit(values) {
     const payload = {
       ...values,
       date: format(values.date, 'yyyy-MM-dd'),
       uid_firebase: user.uid,
     };
     console.log(payload);
-    createConcert(payload);
+    await createConcert(payload);
     router.push('/my-concerts');
   }
 
