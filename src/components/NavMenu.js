@@ -16,8 +16,8 @@ export default function NavMenu() {
     <Sheet open={open} onOpenChange={setOpen}>
       {/* Trigger: the hamburger icon */}
       <SheetTrigger asChild>
-        <Button variant="ghost" className="fixed top-4 right-4 z-50">
-          <Menu style={{ width: '32px', height: '32px' }} />{' '}
+        <Button variant="ghost" className="fixed top-4 right-4 z-50 bg-black">
+          <Menu style={{ width: '32px', height: '32px', color: 'white' }} />{' '}
         </Button>
       </SheetTrigger>
 
@@ -38,7 +38,7 @@ export default function NavMenu() {
             className="font-inconsolata"
           />
           <Button
-            variant="ghost"
+            variant="nav"
             onClick={() => {
               setOpen(false);
               setTimeout(() => {
@@ -49,7 +49,7 @@ export default function NavMenu() {
             HOME
           </Button>
           <Button
-            variant="ghost"
+            variant="nav"
             onClick={() => {
               setOpen(false);
               setTimeout(() => {
@@ -61,7 +61,7 @@ export default function NavMenu() {
             ADD CONCERT
           </Button>
           <Button
-            variant="ghost"
+            variant="nav"
             onClick={() => {
               setOpen(false);
               setTimeout(() => {
@@ -73,7 +73,7 @@ export default function NavMenu() {
             MY CONCERTS
           </Button>
           <Button
-            variant="ghost"
+            variant="nav"
             onClick={() => {
               setOpen(false);
               signOut();
