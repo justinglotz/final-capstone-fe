@@ -60,7 +60,15 @@ export default function NavMenu() {
             <TicketPlus />
             ADD CONCERT
           </Button>
-          <Button variant="ghost" onClick={() => setOpen(false)}>
+          <Button
+            variant="ghost"
+            onClick={() => {
+              setOpen(false);
+              setTimeout(() => {
+                router.push('/my-concerts');
+              }, 200);
+            }}
+          >
             <CircleUserRound />
             MY CONCERTS
           </Button>
