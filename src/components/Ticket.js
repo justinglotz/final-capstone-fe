@@ -2,7 +2,7 @@
 
 /* eslint-disable */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Button } from '../components/ui/button';
 import { parseISO, format } from 'date-fns';
 import { TicketX, Pin, CopyPlus, ThumbsUp } from 'lucide-react';
@@ -27,6 +27,7 @@ export default function Ticket({ concertObj, isEditable = false, onUpdate }) {
     return rows;
   };
 
+  const watermarkRows = useMemo(() => generateWatermarkRows(), []);
   let formatted = '';
   let addToProfileDateFormat = '';
 
@@ -112,7 +113,7 @@ export default function Ticket({ concertObj, isEditable = false, onUpdate }) {
       <div className="flex-[0_0_5px] bg-ticket-center-line"></div>
       <div className="flex-[6] relative bg-ticket-background">
         <div className="absolute inset-0 text-[11px] text-gray-300 leading-[18px] overflow-hidden opacity-95 select-none">
-          <div className="transform -rotate-12 origin-top-left translate-x-[-50px] translate-y-[-20px] scale-110">{generateWatermarkRows()}</div>
+          <div className="transform -rotate-12 origin-top-left translate-x-[-50px] translate-y-[-20px] scale-110">{watermarkRows}</div>
         </div>
 
         <div className="relative z-10 ">
