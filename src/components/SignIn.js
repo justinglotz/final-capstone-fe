@@ -1,23 +1,17 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
 import { signIn } from '../utils/auth';
+import { Button } from './ui/button';
 
 function Signin() {
   return (
-    <div
-      className="text-center d-flex flex-column justify-content-center align-content-center"
-      style={{
-        height: '90vh',
-        padding: '30px',
-        maxWidth: '400px',
-        margin: '0 auto',
-      }}
-    >
-      <h1>Hi there!</h1>
-      <p>Click the button below to login!</p>
-      <Button type="button" size="lg" className="copy-btn" onClick={signIn}>
-        Sign In
-      </Button>
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center">
+        <h1>Welcome to ConcertCapsule</h1>
+        <p>Click the button below to login!</p>
+        <Button onClick={signIn} className="bg-gray-800">
+          Sign In
+        </Button>
+      </div>
     </div>
   );
 }
