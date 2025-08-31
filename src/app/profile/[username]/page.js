@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import Ticket from '../../../components/Ticket';
 import { getConcerts } from '../../../api/concertData';
 import { Separator } from '../../../components/ui/separator';
+import { Button } from '../../../components/ui/button';
+import { followUser } from '../../../api/followerData';
 
 export default function UserConcertsPage({ params }) {
   const [concerts, setConcerts] = useState([]);
@@ -16,6 +18,7 @@ export default function UserConcertsPage({ params }) {
 
   return (
     <div className="w-screen">
+      <Button onClick={() => followUser(username)}>Follow</Button>
       <div className="text-center font-inconsolata mt-10 text-[22px]">
         <h1>{username}&apos;s Concerts</h1>
       </div>
