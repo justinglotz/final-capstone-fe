@@ -1,5 +1,4 @@
 // API CALLS FOR CONCERTS
-// const endpoint = 'http://127.0.0.1:8000/concerts';
 const dbURL = process.env.NEXT_PUBLIC_DATABASE_URL;
 const endpoint = `${dbURL}concerts`;
 
