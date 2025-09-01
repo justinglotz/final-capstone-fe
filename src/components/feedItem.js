@@ -3,14 +3,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { parseISO, format } from 'date-fns';
+import { useRouter } from 'next/navigation';
 import Ticket from './Ticket';
 
 export default function FeedItem({ feedItem }) {
   const createdAt = format(parseISO(feedItem.created_at), 'MMM d, yyyy, h:mm a');
+  const router = useRouter();
 
   return (
     <div className="mb-1 shadow p-4 ">
-      <p className="font-semibold font-inconsolata text-lg">{feedItem.username}</p>
+      <utton type="button" className="hover:text-gray-400 cursor-pointer" onClick={() => router.push(`/profile/${feedItem.username}`)}>
+        <p className="font-semibold font-inconsolata text-lg">{feedItem.username}</p>
+      </utton>
       <Ticket concertObj={feedItem.concert} />
       <p className="text-sm text-gray-400 ">Added {createdAt}</p>
     </div>
