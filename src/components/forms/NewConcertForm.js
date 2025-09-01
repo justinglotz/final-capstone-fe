@@ -44,12 +44,12 @@ export default function NewConcertForm() {
   });
 
   async function onSubmit(values) {
+    console.log('user at submit time', user);
     const payload = {
       ...values,
       date: format(values.date, 'yyyy-MM-dd'),
-      uid_firebase: user.uid,
+      uid_firebase: user.uid_firebase,
     };
-    console.log(payload);
     await createConcert(payload);
     router.push('/my-concerts');
   }
