@@ -10,9 +10,9 @@ export default function FeedItem({ feedItem }) {
 
   return (
     <div className="mb-1 shadow p-4 ">
-      <p className="font-semibold">{feedItem.username}</p>
+      <p className="font-semibold font-inconsolata text-lg">{feedItem.username}</p>
       <Ticket concertObj={feedItem.concert} />
-      <p className="text-sm text-gray-400">Added {createdAt}</p>
+      <p className="text-sm text-gray-400 ">Added {createdAt}</p>
     </div>
   );
 }
