@@ -7,17 +7,19 @@ import { Button } from '../components/ui/button';
 import { parseISO, format } from 'date-fns';
 import { TicketX, Pin, CopyPlus, ThumbsUp, User } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../components/ui/tooltip';
-import { addConcertToProfile, deleteConcert, getConcertLikes } from '../api/concertData';
+import { addConcertToProfile, deleteConcert, getConcertLikes, pinConcert, unpinConcert } from '../api/concertData';
 import { useAuth } from '../utils/context/authContext';
 import { likeConcert, unlikeConcert } from '../api/likeData';
 import { Badge } from '../components/ui/badge';
 import LikesDialog from './likesDialog';
 
-export default function Ticket({ concertObj, isEditable = false, onUpdate }) {
+export default function Ticket({ concertObj, isEditable = false, onUpdate, onPinChange, pinnedCount }) {
   const [open, setOpen] = useState(false);
   const [isLiked, setIsLiked] = useState(concertObj.is_liked);
+  const [isPinned, setIsPinned] = useState(concertObj.pinned);
   const [likeCount, setLikeCount] = useState(concertObj.like_count);
   const [userLikes, setUserLikes] = useState([]);
+
   const {
     concert: { artist, tour_name, venue, date, time },
   } = concertObj;
@@ -73,29 +75,45 @@ export default function Ticket({ concertObj, isEditable = false, onUpdate }) {
 
   const handleLikeToggle = async () => {
     if (isLiked) {
-      await unlikeConcert(concertObj.id);
       setIsLiked(false);
       setLikeCount((prev) => prev - 1);
+      await unlikeConcert(concertObj.id);
     } else {
-      await likeConcert(concertObj.id);
       setIsLiked(true);
       setLikeCount((prev) => prev + 1);
+      await likeConcert(concertObj.id);
+    }
+  };
+
+  const projectedPinnedCount = isPinned ? pinnedCount : pinnedCount + 1;
+  const canPinMore = projectedPinnedCount > 3;
+  const handlePinnedToggle = async () => {
+    if (canPinMore) return;
+
+    if (isPinned) {
+      setIsPinned(false);
+      await unpinConcert(concertObj.id);
+      if (onPinChange) onPinChange(concertObj.id, false);
+    } else {
+      setIsPinned(true);
+      await pinConcert(concertObj.id);
+      if (onPinChange) onPinChange(concertObj.id, true);
     }
   };
 
   return (
-    <div className="w-[490px] h-[210px] border border-black flex flex-row rounded-lg overflow-hidden">
+    <div className="w-full h-[210px] border border-black flex flex-row rounded-lg overflow-hidden">
       <div className="flex-[1] bg-ticket-bg-left flex flex-col items-center gap-3 py-3">
         {isEditable ? (
           <>
             <Tooltip>
               <TooltipTrigger>
-                <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center">
-                  <Pin />
+                <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center" disabled={canPinMore} onClick={() => handlePinnedToggle()}>
+                  <Pin fill={isPinned ? 'white' : 'none'} />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Add to pinned concerts</p>
+                <p>{canPinMore ? 'Maximum 3 pinned concerts' : isPinned ? 'Remove from pinned concerts' : 'Add to pinned concerts'}</p>
               </TooltipContent>
             </Tooltip>
 
