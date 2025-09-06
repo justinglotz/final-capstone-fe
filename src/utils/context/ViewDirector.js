@@ -17,7 +17,7 @@ function ViewDirectorBasedOnUserAuthStatus({ children }) {
     return (
       <>
         <NavMenu /> {/* NavBar only visible if user is logged in and is in every view */}
-        <div className="container">{'valid' in user ? <ProfileSetup user={user} updateUser={updateUser} /> : children}</div>
+        <div className="w-full">{'valid' in user ? <ProfileSetup user={user} updateUser={updateUser} /> : children}</div>
       </>
     );
   }

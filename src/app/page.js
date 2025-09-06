@@ -12,14 +12,16 @@ export default function ConcertsPage() {
   }, []);
 
   return (
-    <div className="w-screen">
+    <div className="w-full">
       <div className="text-center font-inconsolata mt-10 text-[22px]">
         <h1>Feed</h1>
       </div>
       <Separator className="my-4" />
       <div className="w-full flex flex-col items-center">
         {feedItems.map((feedItem) => (
-          <FeedItem key={feedItem.id} feedItem={feedItem} />
+          <div className="w-1/3">
+            <FeedItem key={feedItem.id} feedItem={feedItem} />
+          </div>
         ))}
       </div>
     </div>
