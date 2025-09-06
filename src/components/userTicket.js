@@ -6,23 +6,29 @@ import { parseISO, format } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import Ticket from './Ticket';
 
-export default function FeedItem({ feedItem }) {
-  const createdAt = format(parseISO(feedItem.created_at), 'MMM d, yyyy, h:mm a');
+export default function UserTicket({ concertItem }) {
+  const createdAt = format(parseISO(concertItem.created_at), 'MMM d, yyyy, h:mm a');
   const router = useRouter();
 
   return (
     <div className="mb-1 shadow p-4 ">
-      <button type="button" className="hover:text-gray-400 cursor-pointer" onClick={() => router.push(`/profile/${feedItem.username}`)}>
-        <p className="font-semibold font-inconsolata text-lg">{feedItem.username}</p>
+      <button type="button" className="hover:text-gray-400 cursor-pointer" onClick={() => router.push(`/profile/${concertItem.username}`)}>
+        <p className="font-semibold font-inconsolata text-lg">{concertItem.username}</p>
       </button>
-      <Ticket concertObj={feedItem} />
+      <Ticket
+        concertObj={{
+          ...concertItem.concert,
+          user_concert_id: concertItem.id,
+        }}
+      />
       <p className="text-sm text-gray-400 ">Added {createdAt}</p>
     </div>
   );
 }
 
-FeedItem.propTypes = {
-  feedItem: PropTypes.shape({
+UserTicket.propTypes = {
+  concertItem: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     username: PropTypes.string.isRequired,
     created_at: PropTypes.string.isRequired,
     concert: PropTypes.shape({
