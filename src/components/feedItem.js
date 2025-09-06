@@ -11,7 +11,7 @@ export default function FeedItem({ feedItem }) {
   const router = useRouter();
 
   return (
-    <div className="mb-1 shadow p-4 ">
+    <div className="mb-1 shadow p-4 w-full">
       <button type="button" className="hover:text-gray-400 cursor-pointer" onClick={() => router.push(`/profile/${feedItem.username}`)}>
         <p className="font-semibold font-inconsolata text-lg">{feedItem.username}</p>
       </button>

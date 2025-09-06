@@ -112,4 +112,52 @@ const getConcertLikes = async (userConcertId) => {
   }
 };
 
-export { createConcert, getConcerts, deleteConcert, addConcertToProfile, getConcertLikes };
+const pinConcert = (userConcertId) =>
+  new Promise((resolve, reject) => {
+    firebase
+      .auth()
+      .currentUser.getIdToken()
+      .then((token) => {
+        fetch(`${endpoint}/pin_concert`, {
+          method: 'POST',
+          body: JSON.stringify({
+            user_concert: userConcertId,
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        })
+          .then((resp) => resp.json())
+          .then(resolve)
+          .catch(reject);
+      })
+      .catch(reject);
+  });
+
+const unpinConcert = (userConcertId) =>
+  new Promise((resolve, reject) => {
+    firebase
+      .auth()
+      .currentUser.getIdToken()
+      .then((token) => {
+        fetch(`${endpoint}/unpin_concert`, {
+          method: 'DELETE',
+          body: JSON.stringify({
+            user_concert: userConcertId,
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        })
+          .then((resp) => {
+            if (!resp.ok) throw new Error(`HTTP error! Status: ${resp.status}`);
+            return resp.json();
+          })
+          .then(resolve)
+          .catch(reject);
+      });
+  });
+
+export { createConcert, getConcerts, deleteConcert, addConcertToProfile, getConcertLikes, pinConcert, unpinConcert };
