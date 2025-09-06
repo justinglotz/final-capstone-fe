@@ -7,7 +7,6 @@ import { getConcerts } from '../../../api/concertData';
 import { Separator } from '../../../components/ui/separator';
 import { Button } from '../../../components/ui/button';
 import { followUser, unfollowUser, getFollowStatus } from '../../../api/followerData';
-import { Pin } from 'lucide-react';
 
 export default function UserConcertsPage({ params }) {
   const [concerts, setConcerts] = useState([]);
@@ -16,7 +15,6 @@ export default function UserConcertsPage({ params }) {
 
   useEffect(() => {
     getConcerts(username).then(setConcerts);
-    console.log(concerts);
     getFollowStatus(username).then((res) => {
       setIsFollowing(res.is_following);
     });

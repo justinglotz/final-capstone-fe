@@ -13,7 +13,7 @@ export default function MyConcertsPage() {
 
   useEffect(() => {
     getConcerts(user.username).then(setConcerts);
-  }, []);
+  }, [user.username]);
 
   const handleDeleteConcert = (deletedConcertId) => {
     setConcerts((prevConcerts) => prevConcerts.filter((concert) => concert.id !== deletedConcertId));
