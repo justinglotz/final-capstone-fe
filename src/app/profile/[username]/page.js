@@ -15,13 +15,13 @@ export default function UserConcertsPage({ params }) {
 
   useEffect(() => {
     getConcerts(username).then(setConcerts);
+    console.log(concerts);
     getFollowStatus(username).then((res) => {
       setIsFollowing(res.is_following);
     });
   }, [username]);
 
   const handleFollowToggle = async () => {
-    console.log('toggle');
     if (isFollowing) {
       await unfollowUser(username);
       setIsFollowing(false);

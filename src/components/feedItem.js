@@ -12,10 +12,10 @@ export default function FeedItem({ feedItem }) {
 
   return (
     <div className="mb-1 shadow p-4 ">
-      <utton type="button" className="hover:text-gray-400 cursor-pointer" onClick={() => router.push(`/profile/${feedItem.username}`)}>
+      <button type="button" className="hover:text-gray-400 cursor-pointer" onClick={() => router.push(`/profile/${feedItem.username}`)}>
         <p className="font-semibold font-inconsolata text-lg">{feedItem.username}</p>
-      </utton>
-      <Ticket concertObj={feedItem.concert} />
+      </button>
+      <Ticket concertObj={feedItem} />
       <p className="text-sm text-gray-400 ">Added {createdAt}</p>
     </div>
   );
