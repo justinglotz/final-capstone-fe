@@ -102,8 +102,8 @@ export default function Ticket({ concertObj, isEditable = false, onUpdate, onPin
   };
 
   return (
-    <div className="w-full h-[210px] border border-black flex flex-row rounded-lg overflow-hidden">
-      <div className="flex-[1] bg-ticket-bg-left flex flex-col items-center gap-3 py-3">
+    <div className="w-full min-h-[210px] border border-black flex flex-row rounded-lg overflow-hidden">
+      <div className="flex-[1] bg-ticket-bg-left flex flex-col items-center gap-3 py-3 px-2">
         {isEditable ? (
           <>
             <Tooltip>
