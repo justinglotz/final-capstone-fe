@@ -54,27 +54,31 @@ export default function NewConcertForm() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4 m-auto">
+    <div className="flex flex-col items-center justify-center gap-4 m-auto w-full max-w-2xl px-4">
       <Form {...form}>
-        <ArtistSearch control={form.control} placeholder="Search for artists..." label="Artist Name" url="https://concert-capsule-api.onrender.com/artists/search" name="artist" />
-        <VenueSearch control={form.control} placeholder="Search for venues..." label="Venue Name" url="https://concert-capsule-api.onrender.com/venues/search" name="venue" />
-        <CalendarInput control={form.control} name="date" label="Event Date" placeholder="Choose a date" width="[500px]" />
-        <TimeInput control={form.control} name="time" label="Event Time" width="[500px]" />
-        <FormField
-          control={form.control}
-          name="tourName"
-          render={({ field }) => (
-            <FormItem className="w-[500px]">
-              <FormLabel>Tour Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter tour name..." {...field} />
-              </FormControl>
-              <FormDescription className="ml-1"> optional </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button onClick={form.handleSubmit(onSubmit)}>Submit</Button>
+        <div className="w-full space-y-4">
+          <ArtistSearch control={form.control} placeholder="Search for artists..." label="Artist Name" url="https://concert-capsule-api.onrender.com/artists/search" name="artist" />
+          <VenueSearch control={form.control} placeholder="Search for venues..." label="Venue Name" url="https://concert-capsule-api.onrender.com/venues/search" name="venue" />
+          <CalendarInput control={form.control} name="date" label="Event Date" placeholder="Choose a date" />
+          <TimeInput control={form.control} name="time" label="Event Time" width="full" />
+          <FormField
+            control={form.control}
+            name="tourName"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Tour Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter tour name..." {...field} />
+                </FormControl>
+                <FormDescription className="ml-1"> optional </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button onClick={form.handleSubmit(onSubmit)} className="w-full">
+            Submit
+          </Button>
+        </div>
       </Form>
     </div>
   );
