@@ -22,13 +22,13 @@ export default function ArtistSearch({ control, placeholder = 'Search...', label
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger>
               <FormControl>
-                <Button variant="outline" role="combobox" className={cn('w-[500px] justify-between', !field.value && 'text-muted-foreground')}>
+                <Button variant="outline" role="combobox" className={cn('w-full justify-between', !field.value && 'text-muted-foreground')}>
                   {field.value ? field.value?.name : `Select artist`}
                   <ChevronsUpDown className="opacity-50" />
                 </Button>
               </FormControl>
             </PopoverTrigger>
-            <PopoverContent className="w-[500px] p-0">
+            <PopoverContent className="w-[var(--radix-popover-trigger-width)]  p-0">
               <Command>
                 <CommandInput placeholder={placeholder} className="h-9" value={query} onValueChange={(value) => setQuery(value)} />
                 <CommandList>

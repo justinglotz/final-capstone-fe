@@ -22,13 +22,13 @@ export default function VenueSearch({ control, placeholder = 'Search...', label,
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger>
               <FormControl>
-                <Button variant="outline" role="combobox" className={cn('w-[500px] justify-between', !field.value && 'text-muted-foreground')}>
+                <Button variant="outline" role="combobox" className={cn('w-full justify-between', !field.value && 'text-muted-foreground')}>
                   {field.value ? field.value?.name : `Select venues`}
                   <ChevronsUpDown className="opacity-50" />
                 </Button>
               </FormControl>
             </PopoverTrigger>
-            <PopoverContent className="w-[500px] p-0">
+            <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
               <Command>
                 <CommandInput placeholder={placeholder} className="h-9" value={query} onValueChange={(value) => setQuery(value)} />
                 <CommandList>
@@ -46,7 +46,6 @@ export default function VenueSearch({ control, placeholder = 'Search...', label,
                       >
                         <div className="flex justify-between flex-1 text-black">
                           <span className="max-w-[60%] truncate">{result.name}</span>
-
                           <span className="flex-shrink-0">
                             {result.city}, {result.state}
                           </span>

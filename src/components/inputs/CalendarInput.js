@@ -8,20 +8,20 @@ import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 
-export default function CalendarInput({ control, name, label = 'Date', placeholder = 'Pick a date', width }) {
+export default function CalendarInput({ control, name, label = 'Date', placeholder = 'Pick a date' }) {
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className="flex flex-col items-start">
+        <FormItem className="flex flex-col items-start w-full">
           <FormLabel>{label}</FormLabel>
           <Popover>
-            <PopoverTrigger>
+            <PopoverTrigger className="w-full">
               <FormControl>
-                <Button variant="outline" className={cn(`w-full pl-3 text-left font-normal w-${width}`, !field.value && 'text-muted-foreground')}>
+                <Button variant="outline" className={cn('w-full pl-3 text-left font-normal justify-between', !field.value && 'text-muted-foreground')}>
                   {field.value ? format(field.value, 'yyyy-MM-dd') : <span>{placeholder}</span>}
-                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                  <CalendarIcon className="h-4 w-4 opacity-50" />
                 </Button>
               </FormControl>
             </PopoverTrigger>

@@ -56,7 +56,7 @@ export default function UserConcertsPage({ params }) {
           <div className="border-2 border-white rounded-lg h-[250px] p-4 overflow-y-auto max-w-full">
             <div className="flex flex-row -mx-1 flex-wrap">
               {pinnedConcerts.map((concert) => (
-                <div key={concert.id} className="w-1/3 px-2 flex justify-center items-center">
+                <div key={concert.id} className="w-full md:w-1/3 px-2 flex justify-center items-center">
                   <Ticket key={concert.id} concertObj={concert} />
                 </div>
               ))}
@@ -66,7 +66,7 @@ export default function UserConcertsPage({ params }) {
       )}
 
       <Separator className="my-4" />
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
         {unpinnedConcerts.map((concert) => (
           <div key={concert.id} className="mb-1">
             <Ticket key={concert.id} concertObj={concert} />
