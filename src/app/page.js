@@ -19,7 +19,7 @@ export default function ConcertsPage() {
       <Separator className="my-4" />
       <div className="w-full flex flex-col items-center">
         {feedItems.map((feedItem) => (
-          <div className="w-1/3">
+          <div className="md:w-[500px]">
             <FeedItem key={feedItem.id} feedItem={feedItem} />
           </div>
         ))}

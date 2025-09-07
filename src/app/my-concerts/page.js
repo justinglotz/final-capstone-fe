@@ -32,17 +32,17 @@ export default function MyConcertsPage() {
   };
 
   return (
-    <div className="w-full min-h-screen box-border">
+    <div className="w-[90%] md:w-full min-h-screen box-border mx-auto">
       <div className="text-center font-inconsolata mt-10 text-[22px]">
         <h1>My Concerts</h1>
       </div>
       <p className="font-inconsolata">Pinned Concerts {pinnedConcerts.length}/3</p>
-      <div className="border-2 border-white rounded-lg h-[250px] p-4 overflow-y-auto max-w-full">
+      <div className="border-2 border-white rounded-lg min-h-[250px] max-h-[700px] p-4 overflow-y-auto max-w-full">
         {pinnedConcerts.length > 0 ? (
           <div className="flex flex-row -mx-1 flex-wrap ">
             {pinnedConcerts.map((concert) => (
-              <div key={concert.id} className="w-1/3 px-1 flex justify-center items-center">
-                <Ticket key={concert.id} concertObj={concert} isEditable onUpdate={handleDeleteConcert} onPinChange={handlePinChange} />
+              <div key={concert.id} className="w-full sm:w-[300px] md:w-1/3 px-1 py-1 flex justify-center items-center">
+                <Ticket concertObj={concert} isEditable onUpdate={handleDeleteConcert} onPinChange={handlePinChange} />
               </div>
             ))}
           </div>
@@ -51,10 +51,10 @@ export default function MyConcertsPage() {
         )}
       </div>
       <Separator className="my-4" />
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
         {unpinnedConcerts.map((concert) => (
-          <div key={concert.id} className="mb-1">
-            <Ticket key={concert.id} concertObj={concert} isEditable onUpdate={handleDeleteConcert} onPinChange={handlePinChange} pinnedCount={pinnedConcerts.length} />
+          <div key={concert.id} className="w-full sm:w-[300px] md:w-full mb-1 mx-auto">
+            <Ticket concertObj={concert} isEditable onUpdate={handleDeleteConcert} onPinChange={handlePinChange} pinnedCount={pinnedConcerts.length} />
           </div>
         ))}
       </div>
