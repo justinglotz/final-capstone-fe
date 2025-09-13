@@ -42,5 +42,4 @@ CalendarInput.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
   placeholder: PropTypes.string,
-  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
