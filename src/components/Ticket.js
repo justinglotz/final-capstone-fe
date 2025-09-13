@@ -12,13 +12,92 @@ import { useAuth } from '../utils/context/authContext';
 import { likeConcert, unlikeConcert } from '../api/likeData';
 import { Badge } from '../components/ui/badge';
 import LikesDialog from './likesDialog';
+import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 
-export default function Ticket({ concertObj, isEditable = false, onUpdate, onPinChange, pinnedCount }) {
+export default function Ticket({ concertObj, isEditable = false, pinnedCount }) {
   const [open, setOpen] = useState(false);
   const [isLiked, setIsLiked] = useState(concertObj.is_liked);
-  const [isPinned, setIsPinned] = useState(concertObj.pinned);
   const [likeCount, setLikeCount] = useState(concertObj.like_count);
-  const [userLikes, setUserLikes] = useState([]);
+  const [isPinned, setIsPinned] = useState(concertObj.pinned);
+
+  const queryClient = useQueryClient();
+
+  // Delete Concert
+  const deleteConcertMutation = useMutation({
+    mutationFn: () => deleteConcert(concertObj.id, user.username),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['concerts', user.username]);
+    },
+  });
+
+  // Add concert to profile
+  const addToProfileMutation = useMutation({
+    mutationFn: () => addConcertToProfile(concertObj.concert.id, user.username),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['concerts', user.username]);
+    },
+  });
+
+  const toggleLikeMutation = useMutation({
+    mutationFn: async (liked) => {
+      if (liked) {
+        return await unlikeConcert(concertObj.id);
+      } else {
+        return await likeConcert(concertObj.id);
+      }
+    },
+    onMutate: async (liked) => {
+      setIsLiked(!liked);
+      setLikeCount((prev) => prev + (liked ? -1 : 1));
+    },
+    onError: (err, liked) => {
+      setIsLiked(liked);
+      setLikeCount((prev) => prev + (liked ? 1 : -1));
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(['concertLikes', concertObj.id]);
+    },
+  });
+
+  const togglePinMutation = useMutation({
+    mutationFn: async (pinned) => {
+      if (pinned) {
+        return await unpinConcert(concertObj.id);
+      } else {
+        return await pinConcert(concertObj.id);
+      }
+    },
+    onMutate: async (pinned) => {
+      setIsPinned(!pinned);
+    },
+    onError: (err, pinned) => {
+      setIsPinned(pinned);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(['concerts', user.username]);
+    },
+  });
+
+  // Get usernames for users who liked the concert
+  const { data: likesData } = useQuery({
+    queryKey: ['concertLikes', concertObj.id],
+    queryFn: () => getConcertLikes(concertObj.id),
+    enabled: likeCount > 0,
+  });
+
+  const likedByUsernames = likesData?.usernames ?? [];
+
+  const addToProfile = () => {
+    if (window.confirm(`Did you also attend ${artist.name} at ${venue.name} on ${addToProfileDateFormat}?`)) {
+      addToProfileMutation.mutate();
+    }
+  };
+
+  const deleteThisConcert = () => {
+    if (window.confirm(`Delete ${artist.name} at ${venue.name}?`)) {
+      deleteConcertMutation.mutate();
+    }
+  };
 
   const {
     concert: { artist, tour_name, venue, date, time },
@@ -38,14 +117,6 @@ export default function Ticket({ concertObj, isEditable = false, onUpdate, onPin
     return rows;
   };
 
-  useEffect(() => {
-    if (likeCount > 0) {
-      getConcertLikes(concertObj.id).then((data) => setUserLikes(data.usernames));
-    } else {
-      setUserLikes(null);
-    }
-  }, [likeCount, concertObj.id]);
-
   const watermarkRows = useMemo(() => generateWatermarkRows(), []);
   let formatted = '';
   let addToProfileDateFormat = '';
@@ -61,44 +132,15 @@ export default function Ticket({ concertObj, isEditable = false, onUpdate, onPin
     addToProfileDateFormat = formatted;
   }
 
-  const deleteThisConcert = () => {
-    if (window.confirm(`Delete ${artist.name} at ${venue.name}?`)) {
-      deleteConcert(concertObj.id, user.username).then(() => onUpdate(concertObj.id));
-    }
-  };
-
-  const addToProfile = () => {
-    if (window.confirm(`Did you also attend ${artist.name} at ${venue.name} on ${addToProfileDateFormat}?`)) {
-      addConcertToProfile(concertObj.id, user.username);
-    }
-  };
-
   const handleLikeToggle = async () => {
-    if (isLiked) {
-      setIsLiked(false);
-      setLikeCount((prev) => prev - 1);
-      await unlikeConcert(concertObj.id);
-    } else {
-      setIsLiked(true);
-      setLikeCount((prev) => prev + 1);
-      await likeConcert(concertObj.id);
-    }
+    toggleLikeMutation.mutate(isLiked);
   };
 
   const projectedPinnedCount = isPinned ? pinnedCount : pinnedCount + 1;
   const canPinMore = projectedPinnedCount > 3;
   const handlePinnedToggle = async () => {
     if (canPinMore) return;
-
-    if (isPinned) {
-      setIsPinned(false);
-      await unpinConcert(concertObj.id);
-      if (onPinChange) onPinChange(concertObj.id, false);
-    } else {
-      setIsPinned(true);
-      await pinConcert(concertObj.id);
-      if (onPinChange) onPinChange(concertObj.id, true);
-    }
+    togglePinMutation.mutate(isPinned);
   };
 
   return (
@@ -139,10 +181,10 @@ export default function Ticket({ concertObj, isEditable = false, onUpdate, onPin
                     </div>
                   </TooltipTrigger>
                   <TooltipContent side="bottom">
-                    <p>{userLikes && userLikes.length > 0 ? `Liked by ${userLikes[0]}${likeCount > 1 ? ` and ${likeCount - 1} other${likeCount - 1 === 1 ? '' : 's'}` : ''}` : 'Liked'}</p>
+                    <p>{likedByUsernames && likedByUsernames.length > 0 ? `Liked by ${likedByUsernames[0]}${likeCount > 1 ? ` and ${likeCount - 1} other${likeCount - 1 === 1 ? '' : 's'}` : ''}` : 'Liked'}</p>
                   </TooltipContent>
                 </Tooltip>
-                <LikesDialog open={open} onOpenChange={setOpen} userLikes={userLikes} />
+                <LikesDialog open={open} onOpenChange={setOpen} userLikes={likedByUsernames} />
               </>
             )}
           </>

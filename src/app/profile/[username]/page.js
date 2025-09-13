@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Ticket from '../../../components/Ticket';
 import { getConcerts } from '../../../api/concertData';
 import { Separator } from '../../../components/ui/separator';
@@ -9,16 +10,49 @@ import { Button } from '../../../components/ui/button';
 import { followUser, unfollowUser, getFollowStatus } from '../../../api/followerData';
 
 export default function UserConcertsPage({ params }) {
-  const [concerts, setConcerts] = useState([]);
   const [isFollowing, setIsFollowing] = useState(null);
+
+  const queryClient = useQueryClient();
+
   const { username } = params;
 
+  // Get concerts by username
+  const { data: concerts = [] } = useQuery({
+    queryKey: ['concerts', username],
+    queryFn: () => getConcerts(username),
+    staleTime: 1000 * 60 * 5,
+  });
+
+  // Get follow status by username
+  const { data: followStatus } = useQuery({
+    queryKey: ['followStatus', username],
+    queryFn: () => getFollowStatus(username),
+  });
+
+  const toggleFollowStatusMutation = useMutation({
+    mutationFn: async (following) => {
+      if (following) {
+        return unfollowUser(username);
+      }
+      return followUser(username);
+    },
+    onMutate: async (following) => {
+      setIsFollowing(!following);
+    },
+    onError: (err, following) => {
+      setIsFollowing(following);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(['followStatus', username]);
+      queryClient.invalidateQueries(['feedItems']);
+    },
+  });
+
   useEffect(() => {
-    getConcerts(username).then(setConcerts);
-    getFollowStatus(username).then((res) => {
-      setIsFollowing(res.is_following);
-    });
-  }, [username]);
+    if (followStatus) {
+      setIsFollowing(followStatus.is_following);
+    }
+  }, [followStatus]);
 
   const { pinnedConcerts, unpinnedConcerts } = useMemo(
     () => ({
@@ -29,13 +63,7 @@ export default function UserConcertsPage({ params }) {
   );
 
   const handleFollowToggle = async () => {
-    if (isFollowing) {
-      await unfollowUser(username);
-      setIsFollowing(false);
-    } else {
-      await followUser(username);
-      setIsFollowing(true);
-    }
+    toggleFollowStatusMutation.mutate(isFollowing);
   };
 
   return (

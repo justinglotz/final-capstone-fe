@@ -1,23 +1,20 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { useQuery } from '@tanstack/react-query';
 import Ticket from '../../components/Ticket';
 import { getConcerts } from '../../api/concertData';
 import { Separator } from '../../components/ui/separator';
 import { useAuth } from '../../utils/context/authContext';
 
 export default function MyConcertsPage() {
-  const [concerts, setConcerts] = useState([]);
   const { user } = useAuth();
 
-  useEffect(() => {
-    getConcerts(user.username).then(setConcerts);
-  }, [user.username]);
-
-  const handleDeleteConcert = (deletedConcertId) => {
-    setConcerts((prevConcerts) => prevConcerts.filter((concert) => concert.id !== deletedConcertId));
-  };
+  const { data: concerts = [] } = useQuery({
+    queryKey: ['concerts', user.username],
+    queryFn: () => getConcerts(user.username),
+  });
 
   const { pinnedConcerts, unpinnedConcerts } = useMemo(
     () => ({
@@ -26,10 +23,6 @@ export default function MyConcertsPage() {
     }),
     [concerts],
   );
-
-  const handlePinChange = (concertId, pinned) => {
-    setConcerts((prevConcerts) => prevConcerts.map((concert) => (concert.id === concertId ? { ...concert, pinned } : concert)));
-  };
 
   return (
     <div className="w-[90%] md:w-full min-h-screen box-border mx-auto">
@@ -42,7 +35,7 @@ export default function MyConcertsPage() {
           <div className="flex flex-row -mx-1 flex-wrap ">
             {pinnedConcerts.map((concert) => (
               <div key={concert.id} className="w-full sm:w-[300px] md:w-1/3 px-1 py-1 flex justify-center items-center">
-                <Ticket concertObj={concert} isEditable onUpdate={handleDeleteConcert} onPinChange={handlePinChange} />
+                <Ticket concertObj={concert} isEditable />
               </div>
             ))}
           </div>
@@ -54,7 +47,7 @@ export default function MyConcertsPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
         {unpinnedConcerts.map((concert) => (
           <div key={concert.id} className="w-full sm:w-[300px] md:w-full mb-1 mx-auto">
-            <Ticket concertObj={concert} isEditable onUpdate={handleDeleteConcert} onPinChange={handlePinChange} pinnedCount={pinnedConcerts.length} />
+            <Ticket concertObj={concert} isEditable pinnedCount={pinnedConcerts.length} />
           </div>
         ))}
       </div>

@@ -9,6 +9,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from '@/components/ui/input';
 import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
+import { useQueryClient, useMutation } from '@tanstack/react-query';
 import CalendarInput from '../inputs/CalendarInput';
 import ArtistSearch from '../inputs/ArtistSearch';
 import VenueSearch from '../inputs/VenueSearch';
@@ -39,18 +40,28 @@ const formSchema = z.object({
 export default function NewConcertForm() {
   const router = useRouter();
   const { user } = useAuth();
+  const queryClient = useQueryClient();
   const form = useForm({
     resolver: zodResolver(formSchema),
   });
 
-  async function onSubmit(values) {
-    const payload = {
-      ...values,
-      date: format(values.date, 'yyyy-MM-dd'),
-      uid_firebase: user.uid_firebase,
-    };
-    await createConcert(payload);
-    router.push('/my-concerts');
+  const createConcertMutation = useMutation({
+    mutationFn: async (values) => {
+      const payload = {
+        ...values,
+        date: format(values.date, 'yyyy-MM-dd'),
+        uid_firebase: user.uid_firebase,
+      };
+      return createConcert(payload);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['concerts', user.username] });
+      router.push('/my-concerts');
+    },
+  });
+
+  function onSubmit(values) {
+    createConcertMutation.mutate(values);
   }
 
   return (
