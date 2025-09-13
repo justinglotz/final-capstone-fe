@@ -14,10 +14,12 @@ import { Badge } from '../components/ui/badge';
 import LikesDialog from './likesDialog';
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 import DeleteDialog from './deleteDialog';
+import AddToProfileDialog from './addToProfileDialog';
 
 export default function Ticket({ concertObj, isEditable = false, pinnedCount }) {
   const [openLikes, setOpenLikes] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
+  const [openAddToProfile, setOpenAddToProfile] = useState(false);
   const [isLiked, setIsLiked] = useState(concertObj.is_liked);
   const [likeCount, setLikeCount] = useState(concertObj.like_count);
   const [isPinned, setIsPinned] = useState(concertObj.pinned);
@@ -109,10 +111,8 @@ export default function Ticket({ concertObj, isEditable = false, pinnedCount }) 
 
   const likedByUsernames = likesData?.usernames ?? [];
 
-  const addToProfile = () => {
-    if (window.confirm(`Did you also attend ${artist.name} at ${venue.name} on ${addToProfileDateFormat}?`)) {
-      addToProfileMutation.mutate();
-    }
+  const onAddToProfileConfirm = () => {
+    addToProfileMutation.mutate();
   };
 
   const onDeleteConfirm = () => {
@@ -210,7 +210,7 @@ export default function Ticket({ concertObj, isEditable = false, pinnedCount }) 
           <>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center" onClick={addToProfile}>
+                <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center" onClick={() => setOpenAddToProfile(true)}>
                   <CopyPlus />
                 </Button>
               </TooltipTrigger>
@@ -218,6 +218,7 @@ export default function Ticket({ concertObj, isEditable = false, pinnedCount }) 
                 <p>I was there too</p>
               </TooltipContent>
             </Tooltip>
+            <AddToProfileDialog open={openAddToProfile} onOpenChange={setOpenAddToProfile} concertObj={concertObj.concert} onAddToProfileConfirm={onAddToProfileConfirm} formattedDate={addToProfileDateFormat} />
 
             <Tooltip>
               <TooltipTrigger asChild>
