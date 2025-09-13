@@ -21,8 +21,8 @@ export default function ConcertsPage() {
       <div className="w-full flex flex-col items-center">
         {feedItems.length > 0 &&
           feedItems.map((feedItem) => (
-            <div className="md:w-[500px]">
-              <FeedItem key={feedItem.id} feedItem={feedItem} />
+            <div key={feedItem.id} className="md:w-[500px]">
+              <FeedItem feedItem={feedItem} />
             </div>
           ))}
       </div>

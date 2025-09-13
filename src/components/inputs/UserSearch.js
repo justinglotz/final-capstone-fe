@@ -40,7 +40,7 @@ export default function UserSearchInput({ placeholder = 'Find other users by use
               <CommandEmpty className="bg-black text-white my-auto text-center text-[14px]">No users found.</CommandEmpty>
               <CommandGroup className="bg-black">
                 {results.map((user) => (
-                  <CommandItem key={user.id} value={user.username} onSelect={() => handleSelect(user)} className="cursor-pointer data-[selected=true]:bg-gray-600">
+                  <CommandItem key={user.username} value={user.username} onSelect={() => handleSelect(user)} className="cursor-pointer data-[selected=true]:bg-gray-600">
                     <User className="w-4 h-4 mr-2" />
                     <span className="text-white">{user.username}</span>
                   </CommandItem>
