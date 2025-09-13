@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import PropTypes from 'prop-types';
@@ -20,13 +20,11 @@ export default function ArtistSearch({ control, placeholder = 'Search...', label
         <FormItem className="flex flex-col">
           <FormLabel>{label}</FormLabel>
           <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger>
-              <FormControl>
-                <Button variant="outline" role="combobox" className={cn('w-full justify-between', !field.value && 'text-muted-foreground')}>
-                  {field.value ? field.value?.name : `Select artist`}
-                  <ChevronsUpDown className="opacity-50" />
-                </Button>
-              </FormControl>
+            <PopoverTrigger asChild>
+              <Button variant="outline" role="combobox" className={cn('w-full justify-between', !field.value && 'text-muted-foreground')}>
+                {field.value ? field.value?.name : `Select artist`}
+                <ChevronsUpDown className="opacity-50" />
+              </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[var(--radix-popover-trigger-width)]  p-0">
               <Command>
