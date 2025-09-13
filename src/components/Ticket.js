@@ -68,12 +68,33 @@ export default function Ticket({ concertObj, isEditable = false, pinnedCount }) 
       }
     },
     onMutate: async (pinned) => {
+      // Cancel any outgoing refetches so they don't overwrite our optimistic update
+      await queryClient.cancelQueries(['concerts', user.username]);
+
+      // Snapshot the previous value for potential rollback
+      const previousConcerts = queryClient.getQueryData(['concerts', user.username]);
+
+      // Optimistically update the React Query cache
+      // This is what makes the parent component update immediately
+      queryClient.setQueryData(['concerts', user.username], (old = []) => {
+        return old.map((concert) => (concert.id === concertObj.id ? { ...concert, pinned: !pinned } : concert));
+      });
+
+      // Update local state for immediate visual feedback
       setIsPinned(!pinned);
+
+      // Return context for rollback
+      return { previousConcerts };
     },
-    onError: (err, pinned) => {
+    onError: (err, pinned, context) => {
+      // If the mutation fails, rollback both cache and local state
+      if (context?.previousConcerts) {
+        queryClient.setQueryData(['concerts', user.username], context.previousConcerts);
+      }
       setIsPinned(pinned);
     },
     onSettled: () => {
+      // Sync with server after mutation completes (success or failure)
       queryClient.invalidateQueries(['concerts', user.username]);
     },
   });
