@@ -166,7 +166,7 @@ export default function Ticket({ concertObj, isEditable = false, pinnedCount }) 
         {isEditable ? (
           <>
             <Tooltip>
-              <TooltipTrigger>
+              <TooltipTrigger asChild>
                 <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center" disabled={canPinMore} onClick={() => handlePinnedToggle()}>
                   <Pin fill={isPinned ? 'white' : 'none'} />
                 </Button>
@@ -177,7 +177,7 @@ export default function Ticket({ concertObj, isEditable = false, pinnedCount }) 
             </Tooltip>
 
             <Tooltip>
-              <TooltipTrigger>
+              <TooltipTrigger asChild>
                 <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center" onClick={() => setOpenDelete(true)}>
                   <TicketX />
                 </Button>
@@ -190,7 +190,7 @@ export default function Ticket({ concertObj, isEditable = false, pinnedCount }) 
             {likeCount > 0 && (
               <>
                 <Tooltip>
-                  <TooltipTrigger>
+                  <TooltipTrigger asChild>
                     <div className="relative">
                       <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center" onClick={() => setOpenLikes(true)}>
                         <User />
@@ -209,7 +209,7 @@ export default function Ticket({ concertObj, isEditable = false, pinnedCount }) 
         ) : (
           <>
             <Tooltip>
-              <TooltipTrigger>
+              <TooltipTrigger asChild>
                 <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center" onClick={addToProfile}>
                   <CopyPlus />
                 </Button>
@@ -220,7 +220,7 @@ export default function Ticket({ concertObj, isEditable = false, pinnedCount }) 
             </Tooltip>
 
             <Tooltip>
-              <TooltipTrigger>
+              <TooltipTrigger asChild>
                 <div className="relative">
                   <Button className="w-12 h-12 rounded-md bg-black text-white flex items-center justify-center" onClick={handleLikeToggle}>
                     <ThumbsUp fill={isLiked ? 'green' : 'none'} />

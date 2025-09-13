@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Menu, TicketPlus, LogOut, CircleUserRound } from 'lucide-react'; // optional icon
 import { useRouter } from 'next/navigation';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { signOut } from '../utils/auth';
 import UserSearchInput from './inputs/UserSearch';
 
@@ -23,10 +24,13 @@ export default function NavMenu() {
 
       {/* Sheet content */}
       <SheetContent side="right" className="w-80">
+        <VisuallyHidden>
+          <SheetTitle>Navigation Menu</SheetTitle>
+          <SheetDescription>Main navigation menu</SheetDescription>
+        </VisuallyHidden>
         {/* Menu items */}
 
         <nav className="flex flex-col gap-2 mt-12 font-inconsolata">
-          {/* <Input placeholder="Find other users by username"></Input> */}
           <UserSearchInput
             placeholder="Find other users by username"
             onSelect={(user) => {
