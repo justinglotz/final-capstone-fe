@@ -15,6 +15,7 @@ import LikesDialog from './likesDialog';
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 import DeleteDialog from './deleteDialog';
 import AddToProfileDialog from './addToProfileDialog';
+import { toast } from 'sonner';
 
 export default function Ticket({ concertObj, isEditable = false, pinnedCount }) {
   const [openLikes, setOpenLikes] = useState(false);
@@ -113,10 +114,12 @@ export default function Ticket({ concertObj, isEditable = false, pinnedCount }) 
 
   const onAddToProfileConfirm = () => {
     addToProfileMutation.mutate();
+    toast.success(`${concertObj.concert.artist.name} at ${concertObj.concert.venue.name} added to your profile!`);
   };
 
   const onDeleteConfirm = () => {
     deleteConcertMutation.mutate();
+    toast.success(`${concertObj.concert.artist.name} at ${concertObj.concert.venue.name} successfully deleted.`);
   };
 
   const { user } = useAuth();
