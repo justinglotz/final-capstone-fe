@@ -2,9 +2,9 @@ import { Inter, Inconsolata } from 'next/font/google';
 import PropTypes from 'prop-types';
 import ClientProvider from '@/utils/context/ClientProvider';
 import QueryProvider from '@/components/providers/QueryProvider';
+import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '../components/ui/tooltip';
 
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import '@/styles/globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -16,6 +16,12 @@ export default function RootLayout({ children }) {
         <ClientProvider>
           <QueryProvider>
             <TooltipProvider>{children}</TooltipProvider>
+            <Toaster
+              position="top-left"
+              toastOptions={{
+                className: 'font-inconsolata',
+              }}
+            />
           </QueryProvider>
         </ClientProvider>
       </body>
