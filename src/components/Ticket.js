@@ -69,6 +69,7 @@ export default function Ticket({ concertObj, isEditable = false, pinnedCount }) 
     },
     onMutate: async (pinned) => {
       // Cancel any outgoing refetches so they don't overwrite our optimistic update
+      setIsPinned(!pinned);
       await queryClient.cancelQueries(['concerts', user.username]);
 
       // Snapshot the previous value for potential rollback
@@ -81,7 +82,6 @@ export default function Ticket({ concertObj, isEditable = false, pinnedCount }) 
       });
 
       // Update local state for immediate visual feedback
-      setIsPinned(!pinned);
 
       // Return context for rollback
       return { previousConcerts };
