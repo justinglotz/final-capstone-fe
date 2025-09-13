@@ -1,6 +1,7 @@
 import { Inter, Inconsolata } from 'next/font/google';
 import PropTypes from 'prop-types';
 import ClientProvider from '@/utils/context/ClientProvider';
+import QueryProvider from '@/components/providers/QueryProvider';
 import { TooltipProvider } from '../components/ui/tooltip';
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
@@ -13,7 +14,9 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${inconsolata.variable}`}>
       <body className={inter.className}>
         <ClientProvider>
-          <TooltipProvider>{children}</TooltipProvider>
+          <QueryProvider>
+            <TooltipProvider>{children}</TooltipProvider>
+          </QueryProvider>
         </ClientProvider>
       </body>
     </html>
