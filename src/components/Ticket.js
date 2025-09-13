@@ -34,7 +34,33 @@ export default function Ticket({ concertObj, isEditable = false, pinnedCount }) 
   // Delete Concert
   const deleteConcertMutation = useMutation({
     mutationFn: () => deleteConcert(concertObj.id, user.username),
+    onMutate: async () => {
+      // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+      await queryClient.cancelQueries(['concerts', user.username]);
+
+      // Snapshot the previous value for potential rollback
+      const previousConcerts = queryClient.getQueryData(['concerts', user.username]);
+
+      // Optimistically remove the concert from the cache immediately
+      queryClient.setQueryData(['concerts', user.username], (old = []) => old.filter((concert) => concert.id !== concertObj.id));
+
+      // Return context for potential rollback
+      return { previousConcerts };
+    },
+    onError: (err, variables, context) => {
+      // If the mutation fails, rollback to the previous state
+      if (context?.previousConcerts) {
+        queryClient.setQueryData(['concerts', user.username], context.previousConcerts);
+      }
+      // Show error toast
+      toast.error(`Failed to delete concert. Please try again.`);
+    },
     onSuccess: () => {
+      // Show success toast
+      toast.success(`${concertObj.concert.artist.name} at ${concertObj.concert.venue.name} successfully deleted.`);
+    },
+    onSettled: () => {
+      // Always refetch to ensure we're in sync with the server
       queryClient.invalidateQueries(['concerts', user.username]);
     },
   });
@@ -119,7 +145,6 @@ export default function Ticket({ concertObj, isEditable = false, pinnedCount }) 
 
   const onDeleteConfirm = () => {
     deleteConcertMutation.mutate();
-    toast.success(`${concertObj.concert.artist.name} at ${concertObj.concert.venue.name} successfully deleted.`);
   };
 
   const { user } = useAuth();
