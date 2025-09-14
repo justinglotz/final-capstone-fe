@@ -9,7 +9,7 @@ This app is designed for people who love concerts and want to have one place to 
 - **View other User Profiles**: Users are able to view other users' profiles and see their concerts, likes and pinned concerts.
 - **Pinned concerts**: Users can view all the concerts they have attended and pin their top 3 concerts to their profile. These concerts will be seen first by other people visiting their profile.
 - **Like/Unlike Concerts**: Users can like concerts on other user's profiles, and view likes on their own concerts, including like count and which users liked that concert.
-- *Follow/Unfollow other users**: Users can follow or unfollow users whose concert activity they would like to see in their news feed.
+- **Follow/Unfollow other users**: Users can follow or unfollow users whose concert activity they would like to see in their news feed.
 
 ## Video Walkthrough of ConcertCapsule
 coming soon...
