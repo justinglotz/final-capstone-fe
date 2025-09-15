@@ -13,3 +13,11 @@ This app is designed for people who love concerts and want to have one place to 
 
 ## Video Walkthrough of ConcertCapsule
 coming soon...
+
+## Relevant Links
+- [Wireframes]
+- [ERD]
+- [Deployed Site](https://www.concertcapsule.com/)
+
+## Project Screenshots
+coming soon...
