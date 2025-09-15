@@ -36,8 +36,8 @@ export default function ProfileSetup({ user, updateUser }) {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4">
-      <h1>Complete Your Profile</h1>
+    <div className="flex flex-col items-center justify-center gap-4 mt-4">
+      <h1 className="font-inconsolata">Complete Your Profile</h1>
       <Form {...form}>
         <UsernameAvailableSearch control={form.control} name="username" label="Username" placeholder="Username" />
         <TextInput control={form.control} name="first_name" label="First Name" placeholder="John" description="optional" />
