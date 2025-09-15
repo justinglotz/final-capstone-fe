@@ -25,27 +25,6 @@ const createConcert = async (payload) => {
   }
 };
 
-// const getConcerts = async (username) => {
-//   try {
-//     firebase.auth().currentUser.getIdToken();
-//     const response = await fetch(`${endpoint}?username=${username}`, {
-//       method: 'GET',
-//       headers: {
-//         'Content-Type': 'application/json',
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-
-//     if (!response.ok) {
-//       throw new Error(`Failed to get concerts for ${username}`);
-//     }
-//     return await response.json();
-//   } catch (error) {
-//     console.error('getConcerts error:', error);
-//     throw error;
-//   }
-// };
-
 const getConcerts = (username) =>
   new Promise((resolve, reject) => {
     firebase
