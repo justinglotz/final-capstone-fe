@@ -22,7 +22,7 @@ export default function VenueSearch({ control, placeholder = 'Search...', label,
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <Button variant="outline" role="combobox" className={cn('w-full justify-between', !field.value && 'text-muted-foreground')}>
-                {field.value ? field.value?.name : `Select venues`}
+                {field.value ? field.value?.name : `Select venue`}
                 <ChevronsUpDown className="opacity-50" />
               </Button>
             </PopoverTrigger>
