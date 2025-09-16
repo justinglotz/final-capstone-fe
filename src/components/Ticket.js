@@ -35,32 +35,24 @@ export default function Ticket({ concertObj, isEditable = false, pinnedCount }) 
   const deleteConcertMutation = useMutation({
     mutationFn: () => deleteConcert(concertObj.id, user.username),
     onMutate: async () => {
-      // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
       await queryClient.cancelQueries(['concerts', user.username]);
 
-      // Snapshot the previous value for potential rollback
       const previousConcerts = queryClient.getQueryData(['concerts', user.username]);
 
-      // Optimistically remove the concert from the cache immediately
       queryClient.setQueryData(['concerts', user.username], (old = []) => old.filter((concert) => concert.id !== concertObj.id));
 
-      // Return context for potential rollback
       return { previousConcerts };
     },
     onError: (err, variables, context) => {
-      // If the mutation fails, rollback to the previous state
       if (context?.previousConcerts) {
         queryClient.setQueryData(['concerts', user.username], context.previousConcerts);
       }
-      // Show error toast
       toast.error(`Failed to delete concert. Please try again.`);
     },
     onSuccess: () => {
-      // Show success toast
       toast.success(`${concertObj.concert.artist.name} at ${concertObj.concert.venue.name} successfully deleted.`);
     },
     onSettled: () => {
-      // Always refetch to ensure we're in sync with the server
       queryClient.invalidateQueries(['concerts', user.username]);
     },
   });
@@ -73,6 +65,7 @@ export default function Ticket({ concertObj, isEditable = false, pinnedCount }) 
     },
   });
 
+  // Like/unlike concert
   const toggleLikeMutation = useMutation({
     mutationFn: async (liked) => {
       if (liked) {
@@ -94,6 +87,7 @@ export default function Ticket({ concertObj, isEditable = false, pinnedCount }) 
     },
   });
 
+  // Pin/unpin concerts
   const togglePinMutation = useMutation({
     mutationFn: async (pinned) => {
       if (pinned) {
@@ -106,25 +100,19 @@ export default function Ticket({ concertObj, isEditable = false, pinnedCount }) 
       setIsPinned(!pinned);
       await queryClient.cancelQueries(['concerts', user.username]);
       const previousConcerts = queryClient.getQueryData(['concerts', user.username]);
-
-      // Optimistically update the React Query cache
-      // This is what makes the parent component update immediately
       queryClient.setQueryData(['concerts', user.username], (old = []) => {
         return old.map((concert) => (concert.id === concertObj.id ? { ...concert, pinned: !pinned } : concert));
       });
 
-      // Return context for rollback
       return { previousConcerts };
     },
     onError: (err, pinned, context) => {
-      // If the mutation fails, rollback both cache and local state
       if (context?.previousConcerts) {
         queryClient.setQueryData(['concerts', user.username], context.previousConcerts);
       }
       setIsPinned(pinned);
     },
     onSettled: () => {
-      // Sync with server after mutation completes (success or failure)
       queryClient.invalidateQueries(['concerts', user.username]);
     },
   });
@@ -140,7 +128,7 @@ export default function Ticket({ concertObj, isEditable = false, pinnedCount }) 
 
   const onAddToProfileConfirm = () => {
     addToProfileMutation.mutate();
-    toast.success(`${concertObj.concert.artist.name} at ${concertObj.concert.venue.name} added to your profile!`);
+    toast.success(`${concertObj.concert.artist.name} at ${concertObj.concert.venue.name} added to your concerts !`);
   };
 
   const onDeleteConfirm = () => {
@@ -257,9 +245,7 @@ export default function Ticket({ concertObj, isEditable = false, pinnedCount }) 
                   {likeCount > 0 && <Badge className="absolute -top-2 -right-2 h-5 rounded-full px-1 font-inconsolata tabular-nums bg-gray-300 text-black text-xs">{likeCount}</Badge>}
                 </div>
               </TooltipTrigger>
-              <TooltipContent side="bottom">
-                <p>Like</p>
-              </TooltipContent>
+              <TooltipContent side="bottom">{isLiked ? <p>Unlike</p> : <p>Like</p>}</TooltipContent>
             </Tooltip>
 
             <Button className="w-12 h-12 rounded-md bg-black text-white flex items-ce</TooltipContent>nter justify-center opacity-0">3</Button>
