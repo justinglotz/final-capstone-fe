@@ -14,12 +14,12 @@ const followUser = (targetUsername) =>
         fetch(`${endpoint}follow`, {
           method: 'POST',
           body: JSON.stringify({
-            firebase_token: token,
             target_username: targetUsername,
           }),
           headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
+            Authorization: `Bearer ${token}`,
           },
         })
           .then((resp) => resp.json())
