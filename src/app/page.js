@@ -12,6 +12,7 @@ export default function ConcertsPage() {
     queryFn: () => getNewsFeed(),
     staleTime: 1000 * 60 * 5,
   });
+
   return (
     <div className="w-full">
       <div className="text-center font-inconsolata mt-10 text-[22px]">
@@ -19,12 +20,15 @@ export default function ConcertsPage() {
       </div>
       <Separator className="my-4" />
       <div className="w-full flex flex-col items-center">
-        {feedItems.length > 0 &&
+        {feedItems.length > 0 ? (
           feedItems.map((feedItem) => (
             <div key={feedItem.id} className="md:w-[500px]">
               <FeedItem feedItem={feedItem} />
             </div>
-          ))}
+          ))
+        ) : (
+          <div className="text-gray-500 font-inconsolata">Your feed is empty. Follow other users to populate your feed.</div>
+        )}
       </div>
     </div>
   );

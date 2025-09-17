@@ -30,7 +30,7 @@ export default function VenueSearch({ control, placeholder = 'Search...', label,
               <Command>
                 <CommandInput placeholder={placeholder} className="h-9" value={query} onValueChange={(value) => setQuery(value)} />
                 <CommandList>
-                  <CommandEmpty>No venues found.</CommandEmpty>
+                  <CommandEmpty>No venues found. Type full words and make sure they are spelled correctly.</CommandEmpty>
                   <CommandGroup>
                     {results.map((result) => (
                       <CommandItem
