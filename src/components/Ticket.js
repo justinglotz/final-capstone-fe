@@ -128,7 +128,7 @@ export default function Ticket({ concertObj, isEditable = false, pinnedCount }) 
 
   const onAddToProfileConfirm = () => {
     addToProfileMutation.mutate();
-    toast.success(`${concertObj.concert.artist.name} at ${concertObj.concert.venue.name} added to your concerts !`);
+    toast.success(`${concertObj.concert.artist.name} at ${concertObj.concert.venue.name} added to your concerts!`);
   };
 
   const onDeleteConfirm = () => {
