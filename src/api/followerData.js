@@ -11,11 +11,8 @@ const followUser = (targetUsername) =>
       .auth()
       .currentUser.getIdToken()
       .then((token) => {
-        fetch(`${endpoint}follow`, {
+        fetch(`${endpoint}follow?username=${targetUsername}`, {
           method: 'POST',
-          body: JSON.stringify({
-            target_username: targetUsername,
-          }),
           headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
