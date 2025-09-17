@@ -17,7 +17,6 @@ export default function RootLayout({ children }) {
           <QueryProvider>
             <TooltipProvider>{children}</TooltipProvider>
             <Toaster
-              richColors
               position="top-left"
               toastOptions={{
                 className: 'font-inconsolata',
