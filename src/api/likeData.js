@@ -14,12 +14,12 @@ const likeConcert = (userConcertId) =>
         fetch(`${endpoint}`, {
           method: 'POST',
           body: JSON.stringify({
-            firebase_token: token,
             user_concert: userConcertId,
           }),
           headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
+            Authorization: `Bearer ${token}`,
           },
         })
           .then((resp) => resp.json())
