@@ -41,12 +41,12 @@ export const generateMetadata = async ({ params }) => {
 
   return {
     title: `ConcertCapsule - ${slug || 'HOME'}`, // Dynamically set the title using route parameters
-    description: `This is a dynamically generated description for ${slug}.`, // Dynamic description
+    description: `Capture and relive all your concert memories with ConcertCapsule.`, // Dynamic description
     // Add other metadata fields as needed, like keywords, open graph tags, etc.
     keywords: [`${slug}`, 'dynamic', 'page'],
     openGraph: {
-      title: `ConcertCapsule - digital concert memories`,
-      description: `Open Graph Description for ${slug}`,
+      title: `ConcertCapsule - Digital Concert Memories`,
+      description: `Relive your concert memories and share them with others on ConcertCapsule.`,
       url: `https://yourwebsite.com/${slug}`,
     },
   };
