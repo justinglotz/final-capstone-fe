@@ -8,11 +8,17 @@ import getNewsFeed from '../api/newsFeedData';
 import FeedItem from '../components/feedItem';
 
 export default function ConcertsPage() {
-  const { data: feedItems = [], isPending } = useQuery({
+  const {
+    data: feedItems = [],
+    isPending,
+    isFetching,
+  } = useQuery({
     queryKey: ['feedItems'],
     queryFn: () => getNewsFeed(),
     staleTime: 1000 * 60 * 5,
   });
+
+  const isLoading = isPending || (isFetching && feedItems.length === 0);
 
   return (
     <div className="w-full">
@@ -21,19 +27,19 @@ export default function ConcertsPage() {
       </div>
       <Separator className="my-4" />
       <div className="w-full flex flex-col items-center">
-        {isPending && (
+        {isLoading && (
           <div>
             <Spinner variant="circle" />
           </div>
         )}
-        {!isPending &&
+        {!isLoading &&
           feedItems.length > 0 &&
           feedItems.map((feedItem) => (
             <div key={feedItem.id} className="md:w-[500px]">
               <FeedItem feedItem={feedItem} />
             </div>
           ))}
-        {!isPending && feedItems.length === 0 && <div className="text-gray-500 font-inconsolata">Your feed is empty. Follow other users to populate your feed.</div>}
+        {!isLoading && feedItems.length === 0 && <div className="text-gray-500 font-inconsolata">Your feed is empty. Follow other users to populate your feed.</div>}
       </div>
     </div>
   );
