@@ -16,7 +16,7 @@ coming soon...
 
 ## Relevant Links
 - [Wireframes]
-- [ERD]
+- [ERD](https://dbdiagram.io/d/GLOTZBACH-FINAL-CAPSTONE-ERD-6822906e5b2fc4582f4b6b01)
 - [Deployed Site](https://www.concertcapsule.com/)
 
 ## Project Screenshots
