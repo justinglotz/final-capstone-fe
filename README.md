@@ -27,4 +27,18 @@ coming soon...
 - [Deployed Site](https://www.concertcapsule.com/)
 
 ## Project Screenshots
-coming soon...
+Homepage/Social Feed
+<img width="1512" height="855" alt="Screenshot 2025-09-22 at 7 25 48 AM" src="https://github.com/user-attachments/assets/2f43b483-bdea-40d0-877a-f77f5064f287" />
+
+My Concerts Page
+<img width="1512" height="851" alt="Screenshot 2025-09-22 at 7 26 04 AM" src="https://github.com/user-attachments/assets/b48f6a6b-0d7c-42d2-acd6-ea3325e35bb0" />
+
+Add Concert Form
+<img width="1511" height="854" alt="Screenshot 2025-09-22 at 7 27 04 AM" src="https://github.com/user-attachments/assets/8f2d9a35-1bb8-4ed2-84ed-2fad94c68e64" />
+
+Navigation Menu
+<img width="1512" height="855" alt="Screenshot 2025-09-22 at 7 27 24 AM" src="https://github.com/user-attachments/assets/346a9a1c-d53a-408e-ba3b-8cca1a032175" />
+
+Another user's profile page
+<img width="1512" height="856" alt="Screenshot 2025-09-22 at 7 28 07 AM" src="https://github.com/user-attachments/assets/45942256-0038-431e-be65-f7f82a11bbc8" />
+
