@@ -15,7 +15,7 @@ This app is designed for people who love concerts and want to have one place to 
 coming soon...
 
 ## Relevant Links
-- [Wireframes]
+- [Wireframes](https://www.figma.com/design/Eac52IcY8zqCQcNb00RHfx/Final-Capstone-Wireframes?node-id=0-1&p=f)
 - [ERD](https://dbdiagram.io/d/GLOTZBACH-FINAL-CAPSTONE-ERD-6822906e5b2fc4582f4b6b01)
 - [Deployed Site](https://www.concertcapsule.com/)
 
