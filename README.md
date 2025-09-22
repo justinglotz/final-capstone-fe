@@ -4,7 +4,7 @@ ConcertCapsule is a concert memory tracking and management app for music and con
 ## About the User
 This app is designed for people who love concerts and want to have one place to look back at their concert memories. ConcertCapsule helps the user not only look back at their own concert memories, but also the people they follow, so they can discover other peoples' memories.
 
-##
+## Features
 - **User Authentication**: Secure sign-in and sign-out with Google and Firebase authentication
 - **View other User Profiles**: Users are able to view other users' profiles and see their concerts, likes and pinned concerts.
 - **Pinned concerts**: Users can view all the concerts they have attended and pin their top 3 concerts to their profile. These concerts will be seen first by other people visiting their profile.
