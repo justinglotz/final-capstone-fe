@@ -11,8 +11,12 @@ This app is designed for people who love concerts and want to have one place to 
 - **Like/Unlike Concerts**: Users can like concerts on other user's profiles, and view likes on their own concerts, including like count and which users liked that concert.
 - **Follow/Unfollow other users**: Users can follow or unfollow users whose concert activity they would like to see in their news feed.
 
-## Technologies Used
-- **React**
+## Technologies/Libraries Used
+- React
+- Next.js
+- Tailwind CSS
+- TanStack Query
+- ShadCN
 
 ## Video Walkthrough of ConcertCapsule
 coming soon...
