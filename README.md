@@ -19,7 +19,7 @@ This app is designed for people who love concerts and want to have one place to 
 - ShadCN
 
 ## Video Walkthrough of ConcertCapsule
-coming soon...
+[Demo](https://www.loom.com/share/d0d6ad63c2af45b587b9a9d530399c3b)
 
 ## Relevant Links
 - [Wireframes](https://www.figma.com/design/Eac52IcY8zqCQcNb00RHfx/Final-Capstone-Wireframes?node-id=0-1&p=f)
