@@ -5,12 +5,22 @@ import 'firebase/auth';
 const dbURL = process.env.NEXT_PUBLIC_DATABASE_URL;
 const endpoint = `${dbURL}concerts`;
 
-// CREATE CONCERT
+// Function to get Firebase Token
+const getFirebaseToken = async () => {
+  const { currentUser } = firebase.auth();
+  if (!currentUser) {
+    throw new Error('User not authenticated');
+  }
+  return currentUser.getIdToken();
+};
+
+// Create Concert
 const createConcert = async (payload) => {
   try {
+    const token = await getFirebaseToken();
     const response = await fetch(endpoint, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
       body: JSON.stringify(payload),
     });
 
@@ -25,31 +35,30 @@ const createConcert = async (payload) => {
   }
 };
 
-const getConcerts = (username) =>
-  new Promise((resolve, reject) => {
-    firebase
-      .auth()
-      .currentUser.getIdToken()
-      .then((token) => {
-        fetch(`${endpoint}?username=${username}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        })
-          .then((resp) => {
-            if (!resp.ok) throw new Error(`HTTP error! Status: ${resp.status}`);
-            return resp.json();
-          })
-          .then(resolve)
-          .catch(reject);
-      });
-  });
-
-const deleteConcert = async (concertId, username) => {
+// Get Concerts by Username
+const getConcerts = async (username) => {
   try {
-    const response = await fetch(`${endpoint}/${concertId}/?username=${username}`, {
+    const token = await getFirebaseToken();
+    const response = await fetch(`${endpoint}?username=${username}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to get concerts');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('getConcerts error: ', error);
+    throw error;
+  }
+};
+
+// Delete Concert
+const deleteConcert = async (concertId) => {
+  try {
+    const response = await fetch(`${endpoint}/${concertId}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -64,6 +73,7 @@ const deleteConcert = async (concertId, username) => {
   }
 };
 
+// Add concert to profile (copy concert)
 const addConcertToProfile = async (concertId, username) => {
   try {
     const response = await fetch(`${endpoint}/${concertId}/add-to-profile/`, {
@@ -78,6 +88,7 @@ const addConcertToProfile = async (concertId, username) => {
   }
 };
 
+// Get usernames of users who liked that concert
 const getConcertLikes = async (userConcertId) => {
   try {
     const response = await fetch(`${endpoint}/${userConcertId}/get_likes`, {
@@ -91,52 +102,49 @@ const getConcertLikes = async (userConcertId) => {
   }
 };
 
-const pinConcert = (userConcertId) =>
-  new Promise((resolve, reject) => {
-    firebase
-      .auth()
-      .currentUser.getIdToken()
-      .then((token) => {
-        fetch(`${endpoint}/pin_concert`, {
-          method: 'POST',
-          body: JSON.stringify({
-            user_concert: userConcertId,
-          }),
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        })
-          .then((resp) => resp.json())
-          .then(resolve)
-          .catch(reject);
-      })
-      .catch(reject);
-  });
+// Pin concert to profile
+const pinConcert = async (userConcertId) => {
+  try {
+    const token = await getFirebaseToken();
+    const response = await fetch(`${endpoint}/pin_concert`, {
+      method: 'POST',
+      body: JSON.stringify({
+        user_concert: userConcertId,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return await response.json();
+  } catch (error) {
+    console.error('pinConcert error:', error);
+    throw error;
+  }
+};
 
-const unpinConcert = (userConcertId) =>
-  new Promise((resolve, reject) => {
-    firebase
-      .auth()
-      .currentUser.getIdToken()
-      .then((token) => {
-        fetch(`${endpoint}/unpin_concert`, {
-          method: 'DELETE',
-          body: JSON.stringify({
-            user_concert: userConcertId,
-          }),
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        })
-          .then((resp) => {
-            if (!resp.ok) throw new Error(`HTTP error! Status: ${resp.status}`);
-            return resp.json();
-          })
-          .then(resolve)
-          .catch(reject);
-      });
-  });
+// Unpin concert from profile
+const unpinConcert = async (userConcertId) => {
+  try {
+    const token = await getFirebaseToken();
+    const response = await fetch(`${endpoint}/unpin_concert`, {
+      method: 'DELETE',
+      body: JSON.stringify({
+        user_concert: userConcertId,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('unpinConcert error:', error);
+    throw error;
+  }
+};
 
 export { createConcert, getConcerts, deleteConcert, addConcertToProfile, getConcertLikes, pinConcert, unpinConcert };
