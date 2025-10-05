@@ -1,76 +1,62 @@
-import firebase from 'firebase/app';
 import 'firebase/auth';
+import { getFirebaseToken } from './concertData';
 
 // API CALLS FOR FOLLOWERS
 const dbURL = process.env.NEXT_PUBLIC_DATABASE_URL;
 const endpoint = `${dbURL}`;
 
-const followUser = (targetUsername) =>
-  new Promise((resolve, reject) => {
-    firebase
-      .auth()
-      .currentUser.getIdToken()
-      .then((token) => {
-        fetch(`${endpoint}follow?username=${targetUsername}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        })
-          .then((resp) => resp.json())
-          .then(resolve)
-          .catch(reject);
-      })
-      .catch(reject);
-  });
+const followUser = async (targetUsername) => {
+  try {
+    const token = await getFirebaseToken();
+    const response = await fetch(`${endpoint}/follow?username=${targetUsername}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return await response.json();
+  } catch (error) {
+    console.error('followUser error: ', error);
+    throw error;
+  }
+};
 
-const unfollowUser = (targetUsername) =>
-  new Promise((resolve, reject) => {
-    firebase
-      .auth()
-      .currentUser.getIdToken()
-      .then((token) => {
-        fetch(`${endpoint}follow/unfollow?username=${targetUsername}`, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        })
-          .then((resp) => {
-            if (!resp.ok) throw new Error(`HTTP error! Status: ${resp.status}`);
-            return resp;
-          })
-          .then(resolve)
-          .catch(reject);
-      })
-      .catch(reject);
-  });
+const unfollowUser = async (targetUsername) => {
+  try {
+    const token = await getFirebaseToken();
+    const response = await fetch(`${endpoint}/follow/unfollow?username=${targetUsername}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return await response.json();
+  } catch (error) {
+    console.error('unfollowUser error: ', error);
+    throw error;
+  }
+};
 
-const getFollowStatus = (username) =>
-  new Promise((resolve, reject) => {
-    firebase
-      .auth()
-      .currentUser.getIdToken()
-      .then((token) => {
-        fetch(`${endpoint}follow/follow_status?username=${username}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        })
-          .then((resp) => {
-            if (!resp.ok) throw new Error(`HTTP error! Status: ${resp.status}`);
-            return resp.json();
-          })
-          .then(resolve)
-          .catch(reject);
-      });
-  });
+const getFollowStatus = async (username) => {
+  try {
+    const token = await getFirebaseToken();
+    const response = await fetch(`${endpoint}/follow/follow_status?username=${username}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return await response.json();
+  } catch (error) {
+    console.error('getFollowStatus error: ', error);
+    throw error;
+  }
+};
 
 export { followUser, getFollowStatus, unfollowUser };

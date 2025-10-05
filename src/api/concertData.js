@@ -74,12 +74,12 @@ const deleteConcert = async (concertId) => {
 };
 
 // Add concert to profile (copy concert)
-const addConcertToProfile = async (concertId, username) => {
+const addConcertToProfile = async (concertId) => {
   try {
+    const token = await getFirebaseToken();
     const response = await fetch(`${endpoint}/${concertId}/add-to-profile/`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username }),
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
     });
     return await response.json();
   } catch (error) {
@@ -147,4 +147,4 @@ const unpinConcert = async (userConcertId) => {
   }
 };
 
-export { createConcert, getConcerts, deleteConcert, addConcertToProfile, getConcertLikes, pinConcert, unpinConcert };
+export { createConcert, getConcerts, deleteConcert, addConcertToProfile, getConcertLikes, pinConcert, unpinConcert, getFirebaseToken };
