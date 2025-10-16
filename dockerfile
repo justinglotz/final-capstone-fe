@@ -18,9 +18,6 @@ COPY . .
  
 # Expose the port your app runs on
 EXPOSE 3000
-
-# Set hostname to 0.0.0.0 so it's accessible outside the container
-ENV HOSTNAME=0.0.0.0
  
 # Define the command to run your app
 CMD ["npm", "run", "dev"]
