@@ -33,7 +33,7 @@ export default function Ticket({ concertObj, isEditable = false, pinnedCount }) 
 
   // Delete Concert
   const deleteConcertMutation = useMutation({
-    mutationFn: () => deleteConcert(concertObj.id, user.username),
+    mutationFn: () => deleteConcert(concertObj.id),
     onMutate: async () => {
       await queryClient.cancelQueries(['concerts', user.username]);
 
@@ -59,7 +59,7 @@ export default function Ticket({ concertObj, isEditable = false, pinnedCount }) 
 
   // Add concert to profile
   const addToProfileMutation = useMutation({
-    mutationFn: () => addConcertToProfile(concertObj.concert.id, user.username),
+    mutationFn: () => addConcertToProfile(concertObj.concert.id),
     onSuccess: () => {
       queryClient.invalidateQueries(['concerts', user.username]);
     },
