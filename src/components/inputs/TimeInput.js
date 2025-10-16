@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import PropTypes from 'prop-types';
 
-export default function TimeInput({ control, name, label = 'Time', defaultValue = '19:00:00', width, step = '1', ...props }) {
+export default function TimeInput({ control, name, label = 'Time', placeholder = '19:00:00', width, step = '1', ...props }) {
   return (
     <FormField
       control={control}
@@ -13,7 +13,7 @@ export default function TimeInput({ control, name, label = 'Time', defaultValue 
         <FormItem className="flex flex-col items-start">
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input type="time" step={step} className={cn(`w-full bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none w-${width}`, !field.value && 'text-muted-foreground')} {...field} {...props} value={field.value || defaultValue} />
+            <Input type="time" step={step} placeholder={placeholder} className={cn(`w-full bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none w-${width}`, !field.value && 'text-muted-foreground')} {...field} {...props} value={field.value || ''} />
           </FormControl>
           <FormMessage />
           <FormDescription className="ml-1"> optional </FormDescription>
