@@ -68,8 +68,8 @@ export default function NewConcertForm() {
     <div className="flex flex-col items-center justify-center gap-4 m-auto w-full max-w-2xl px-4">
       <Form {...form}>
         <div className="w-full space-y-4">
-          <ArtistSearch control={form.control} placeholder="Search for artists..." label="Artist Name" url="https://concert-capsule-api.onrender.com/artists/search" name="artist" />
-          <VenueSearch control={form.control} placeholder="Search for venues..." label="Venue Name" url="https://concert-capsule-api.onrender.com/venues/search" name="venue" />
+          <ArtistSearch control={form.control} placeholder="Search for artists..." label="Artist Name" url={`${process.env.NEXT_PUBLIC_DATABASE_URL}artists/search`} name="artist" />
+          <VenueSearch control={form.control} placeholder="Search for venues..." label="Venue Name" url={`${process.env.NEXT_PUBLIC_DATABASE_URL}venues/search`} name="venue" />
           <CalendarInput control={form.control} name="date" label="Event Date" placeholder="Choose a date" />
           <TimeInput control={form.control} name="time" label="Event Time" width="full" />
           <FormField
